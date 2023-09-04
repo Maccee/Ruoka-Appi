@@ -1,0 +1,229 @@
+.App {
+  
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 62.5%;
+  
+  border-radius: 1rem;
+  height: 100vh;
+
+  background-color: rgb(211, 255, 240);
+}
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: rgb(156, 156, 156);
+}
+.App button {
+  
+  
+  background-color: rgb(40, 150, 130); /* A green-ish color that complements the background */
+  color: white; /* White text for contrast */
+  padding: 0.5rem 0.5rem; /* Vertical and horizontal padding */
+  border: none; /* No border */
+  border-radius: 0.5rem; /* Rounded corners */
+  cursor: pointer; /* Hand cursor on hover */
+  font-size: 1rem; /* Adjust as needed */
+  transition: background-color 0.3s ease; /* Smooth color transition on hover */
+}
+.App h1 {
+  font-size: 3rem;
+  letter-spacing: 0.5rem;
+  padding: 0.5rem;
+  border-bottom: 1px dashed rgb(199, 199, 199);
+}
+.App h2 {
+  font-size: 1.5rem;
+  letter-spacing: 0.5rem;
+  padding: 0.5rem;
+}
+.App header {
+  margin-bottom: 1rem;
+  
+  background-color: antiquewhite;
+}
+
+.App ul {
+  font-size: 1rem;
+  padding: 0.5rem;
+  letter-spacing: 0.3rem;
+}
+.App nav {
+  position: fixed;
+  bottom: 0;
+  
+  width: 100%;
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: antiquewhite;
+  
+  border-top: 1px dashed rgb(199, 199, 199);
+}
+
+.App nav ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+  
+}
+.App nav a {
+  text-decoration: none;
+  color: black;
+  border: 1px solid rgba(0, 0, 0, 0.19);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: rgb(211, 255, 240);
+}
+
+.listMeals {
+  font-size: 1rem;
+  border: 1px solid rgb(227, 227, 227);
+  border-radius: 1rem;
+  padding: 0.5rem;
+  background-color: white;
+  margin-bottom: 1rem;
+  box-shadow: 4px 4px 10px -6px black;
+}
+.listMeals p {
+  font-weight: 700;
+  letter-spacing: 0.2rem;
+}
+.listMeals ul li {
+  padding-bottom: 0.2rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.1rem;
+}
+.ingredientItem {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.stockForm {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: max-content; /* Fit content */
+}
+
+.stockForm input[type="text"] { /* Assuming the ingredient name input is of type text */
+  width: 100%;
+  margin: 1rem 0; /* Top and bottom margin only */
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+}
+
+.stockForm div { /* Wrapper div for the two elements next to each other */
+  display: flex;
+  gap: 1rem; /* Spacing between the elements */
+}
+
+.stockForm input[type="number"] {
+  width: 50%; /* Adjust based on preference */
+  margin-right: 1rem; /* Right margin only */
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+}
+
+.stockForm select {
+  width: 25%; /* Adjust based on preference */
+  margin: 0; /* No margin as it's already taken care by the wrapper div */
+  border-radius: 0.5rem;
+}
+.stockForm button {
+  margin-top: 1rem;
+}
+
+.stockItemsList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* This will vertically center the contents */
+  width: 100%;
+  gap: 1rem;
+  padding: 0.2rem 0; /* Optional padding for better spacing */
+}
+
+.itemDetails {
+  padding-left: 0.5rem;
+  flex-basis: 90%;
+  letter-spacing: 0.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: left; 
+  width: 100%; /* You can adjust this value based on your design preference */
+  gap: 0.5rem; /* Spacing between the name and the quantity */
+}
+
+
+.itemQuantity {
+  width: 100px;
+ 
+  text-align: left;
+  white-space: nowrap;
+}
+
+.itemActions {
+  padding-right: 1rem;
+  flex-basis: 10%;
+  display: flex;
+  gap: 0.5rem; /* Gap between buttons */
+}
+
+
+.recipeForm {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  
+  
+}
+
+.recipeForm input { /* Assuming the ingredient name input is of type text */
+  width: 60%;
+  margin-top: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+}
+.recipeForm button {
+  margin-top: 0.5rem;
+}
+
+
+
+.recipeList {
+  font-size: 1rem;
+  border: 1px solid rgb(227, 227, 227);
+  border-radius: 1rem;
+  padding: 0.5rem;
+  background-color: white;
+  margin-bottom: 1rem;
+  box-shadow: 4px 4px 10px -6px black;
+  position: relative; /* Added to position the buttons at the bottom */
+}
+
+.recipeList p {
+  font-weight: 700;
+  letter-spacing: 0.2rem;
+}
+
+.recipeList ul li {
+  padding-bottom: 0.2rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.1rem;
+}
+
+.ingredientItem {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.recipeActions {
+  display: flex;
+  gap: 10px;
+         /* Positioning 10px from the right of .recipeList */
+}
