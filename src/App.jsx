@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+
+
 import "./App.css";
 
 function App() {
@@ -130,130 +133,173 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h2>Fridge Contents</h2>
-      <form onSubmit={handleAddItem}>
-        <input
-          value={newItemName}
-          onChange={(e) => setNewItemName(e.target.value)}
-          placeholder="Ingredient name"
-        />
-        <input
-          type="number"
-          value={newItemQuantity}
-          onChange={(e) => setNewItemQuantity(e.target.value)}
-          placeholder="Quantity"
-        />
-        <select
-          value={newItemUnit}
-          onChange={(e) => setNewItemUnit(e.target.value)}
-        >
-          <option value="pieces">pieces</option>
-          <option value="kilograms">kilograms</option>
-          <option value="litres">litres</option>
-          {/* add any other units you'd like */}
-        </select>
-        <button type="submit">Add</button>
-      </form>
-      <ul>
-        {fridgeItems.map((item, idx) => (
-          <li key={idx}>
-            {item.name} - {item.quantity} {item.unit}
-            <button onClick={() => handleModifyItem(item.name)}>Modify</button>
-            <button onClick={() => handleRemoveItem(item.name)}>Remove</button>
-          </li>
-        ))}
-      </ul>
-
-      <h2>Recipe Creation</h2>
-      <div>
-        <form onSubmit={handleAddRecipe}>
-          <input
-            value={newRecipeName}
-            onChange={(e) => setNewRecipeName(e.target.value)}
-            placeholder="Recipe name"
-          />
-
-          {newRecipeIngredients.map((ingredient, idx) => (
-            <div key={idx}>
-              <input
-                value={ingredient.name}
-                onChange={(e) => {
-                  const updatedIngredients = [...newRecipeIngredients];
-                  updatedIngredients[idx].name = e.target.value;
-                  setNewRecipeIngredients(updatedIngredients);
-                }}
-                placeholder="Ingredient name"
-              />
-              <input
-                type="number"
-                value={ingredient.quantity}
-                onChange={(e) => {
-                  const updatedIngredients = [...newRecipeIngredients];
-                  updatedIngredients[idx].quantity = e.target.value;
-                  setNewRecipeIngredients(updatedIngredients);
-                }}
-                placeholder="Quantity"
-              />
-              <select
-                value={ingredient.unit}
-                onChange={(e) => {
-                  const updatedIngredients = [...newRecipeIngredients];
-                  updatedIngredients[idx].unit = e.target.value;
-                  setNewRecipeIngredients(updatedIngredients);
-                }}
-              >
-                <option value="pieces">pieces</option>
-                <option value="kilograms">kilograms</option>
-                <option value="litres">litres</option>
-                {/* add any other units you'd like */}
-              </select>
-              <button
-                type="button"
-                onClick={() => handleRemoveRecipeIngredient(idx)}
-              >
-                Remove Ingredient
-              </button>
-            </div>
-          ))}
-
-          <button type="button" onClick={addIngredientToRecipe}>
-            Add another ingredient
-          </button>
-          <button type="submit">Add Recipe</button>
-        </form>
+    <Router>
+      <div className="App">
+        <header>
+          <h1>Ruoka-Appi</h1>
+        </header>
+  
+        <Routes>
+          <Route path="/" element={
+            <>
+              <h2>Possible Meals</h2>
+              <ul>
+                {possibleMeals.length === 0 ? (
+                  <p>No possible meals, please add ingredients to your stock!</p>
+                ) : (
+                  possibleMeals.map((recipe, idx) => (
+                    <li key={idx}>
+                      {recipe.name} - Ingredients:
+                      {recipe.ingredients
+                        .map(
+                          (ing) => ` ${ing.name} (${ing.quantity} ${ing.unit})`
+                        )
+                        .join(", ")}
+                    </li>
+                  ))
+                )}
+              </ul>
+            </>
+          } />
+  
+          <Route path="/stock" element={
+            <>
+              <h2>Fridge Contents</h2>
+              <form onSubmit={handleAddItem}>
+                <input
+                  value={newItemName}
+                  onChange={(e) => setNewItemName(e.target.value)}
+                  placeholder="Ingredient name"
+                />
+                <input
+                  type="number"
+                  value={newItemQuantity}
+                  onChange={(e) => setNewItemQuantity(e.target.value)}
+                  placeholder="Quantity"
+                />
+                <select
+                  value={newItemUnit}
+                  onChange={(e) => setNewItemUnit(e.target.value)}
+                >
+                  <option value="pieces">pieces</option>
+                  <option value="kilograms">kilograms</option>
+                  <option value="litres">litres</option>
+                </select>
+                <button type="submit">Add</button>
+              </form>
+              <ul>
+                {fridgeItems.map((item, idx) => (
+                  <li key={idx}>
+                    {item.name} - {item.quantity} {item.unit}
+                    <button onClick={() => handleModifyItem(item.name)}>
+                      Modify
+                    </button>
+                    <button onClick={() => handleRemoveItem(item.name)}>
+                      Remove
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </>
+          } />
+  
+          <Route path="/recipes" element={
+            <>
+              <h2>Recipe Creation</h2>
+              <div>
+                <form onSubmit={handleAddRecipe}>
+                  <input
+                    value={newRecipeName}
+                    onChange={(e) => setNewRecipeName(e.target.value)}
+                    placeholder="Recipe name"
+                  />
+  
+                  {newRecipeIngredients.map((ingredient, idx) => (
+                    <div key={idx}>
+                      <input
+                        value={ingredient.name}
+                        onChange={(e) => {
+                          const updatedIngredients = [...newRecipeIngredients];
+                          updatedIngredients[idx].name = e.target.value;
+                          setNewRecipeIngredients(updatedIngredients);
+                        }}
+                        placeholder="Ingredient name"
+                      />
+                      <input
+                        type="number"
+                        value={ingredient.quantity}
+                        onChange={(e) => {
+                          const updatedIngredients = [...newRecipeIngredients];
+                          updatedIngredients[idx].quantity = e.target.value;
+                          setNewRecipeIngredients(updatedIngredients);
+                        }}
+                        placeholder="Quantity"
+                      />
+                      <select
+                        value={ingredient.unit}
+                        onChange={(e) => {
+                          const updatedIngredients = [...newRecipeIngredients];
+                          updatedIngredients[idx].unit = e.target.value;
+                          setNewRecipeIngredients(updatedIngredients);
+                        }}
+                      >
+                        <option value="pieces">pieces</option>
+                        <option value="kilograms">kilograms</option>
+                        <option value="litres">litres</option>
+                      </select>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveRecipeIngredient(idx)}
+                      >
+                        Remove Ingredient
+                      </button>
+                    </div>
+                  ))}
+  
+                  <button type="button" onClick={addIngredientToRecipe}>
+                    Add another ingredient
+                  </button>
+                  <button type="submit">Add Recipe</button>
+                </form>
+              </div>
+  
+              <ul>
+                {recipes.map((recipe, idx) => (
+                  <li key={idx}>
+                    {recipe.name} - Ingredients:{" "}
+                    {recipe.ingredients
+                      .map((ing) => `${ing.name} - ${ing.quantity} ${ing.unit}`)
+                      .join(", ")}
+                    <button onClick={() => handleModifyRecipe(recipe.name)}>
+                      Modify
+                    </button>
+                    <button onClick={() => handleRemoveRecipe(recipe.name)}>
+                      Remove
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </>
+          } />
+        </Routes>
+  
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/stock">Stock</Link>
+            </li>
+            <li>
+              <Link to="/recipes">Recipes</Link>
+            </li>
+          </ul>
+        </nav>
       </div>
-
-      <ul>
-        {recipes.map((recipe, idx) => (
-          <li key={idx}>
-            {recipe.name} - Ingredients:{" "}
-            {recipe.ingredients
-              .map((ing) => `${ing.name} - ${ing.quantity} ${ing.unit}`)
-              .join(", ")}
-            <button onClick={() => handleModifyRecipe(recipe.name)}>
-              Modify
-            </button>
-            <button onClick={() => handleRemoveRecipe(recipe.name)}>
-              Remove
-            </button>
-          </li>
-        ))}
-      </ul>
-
-      <h2>Possible Meals</h2>
-      <ul>
-        {possibleMeals.map((recipe, idx) => (
-          <li key={idx}>
-            {recipe.name} - Ingredients:
-            {recipe.ingredients
-              .map((ing) => ` ${ing.name} (${ing.quantity} ${ing.unit})`)
-              .join(", ")}
-          </li>
-        ))}
-      </ul>
-    </div>
+    </Router>
   );
+  
 }
 
 export default App;
