@@ -1,11 +1,8 @@
 .App {
-  
-  font-family: 'Kanit', sans-serif;
+  font-family: "Kanit", sans-serif;
   font-size: 62.5%;
-  
   border-radius: 1rem;
   height: 100vh;
-
   background-color: rgb(211, 255, 240);
 }
 hr {
@@ -14,16 +11,11 @@ hr {
   color: rgb(156, 156, 156);
 }
 .App button {
-  
-  
-  background-color: rgb(40, 150, 130); /* A green-ish color that complements the background */
-  color: white; /* White text for contrast */
-  padding: 0.5rem 0.5rem; /* Vertical and horizontal padding */
-  border: none; /* No border */
-  border-radius: 0.5rem; /* Rounded corners */
-  cursor: pointer; /* Hand cursor on hover */
-  font-size: 1rem; /* Adjust as needed */
-  transition: background-color 0.3s ease; /* Smooth color transition on hover */
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
 }
 .App h1 {
   font-size: 3rem;
@@ -38,25 +30,26 @@ hr {
 }
 .App header {
   margin-bottom: 1rem;
-  font-family: 'Kanit', sans-serif;
+
   background-color: antiquewhite;
 }
 
 .App ul {
   font-size: 1rem;
-  padding: 0.5rem;
-  letter-spacing: 0.3rem;
+  letter-spacing: 0.1rem;
+}
+.App ul button {
 }
 .App nav {
   position: fixed;
   bottom: 0;
-  
+
   width: 100%;
   margin-top: 1rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   background-color: antiquewhite;
-  
+
   border-top: 1px dashed rgb(199, 199, 199);
 }
 
@@ -64,8 +57,6 @@ hr {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  
-  
 }
 .App nav a {
   text-decoration: none;
@@ -74,6 +65,27 @@ hr {
   padding: 0.5rem;
   border-radius: 0.5rem;
   background-color: rgb(211, 255, 240);
+}
+.App input {
+  width: 100%;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  padding-left: 1rem;
+  box-sizing: border-box;
+  border: 1px solid black;
+  color: dimgray;
+}
+.App input[type="number"] {
+  width: 50%;
+}
+.App select {
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
+  color: dimgray;
+  border: 1px solid black;
 }
 
 .listMeals {
@@ -105,88 +117,78 @@ hr {
 }
 
 .stockForm {
-  margin-left: 1rem;
-  margin-right: 1rem;
+  margin: 0.5rem;
+}
+.stockForm div {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: max-content; /* Fit content */
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  gap: 2rem;
 }
-
-.stockForm input[type="text"] { /* Assuming the ingredient name input is of type text */
-  width: 100%;
-  margin: 1rem 0; /* Top and bottom margin only */
-  border-radius: 0.5rem;
-  padding: 0.3rem;
-}
-
-.stockForm div { /* Wrapper div for the two elements next to each other */
-  display: flex;
-  gap: 1rem; /* Spacing between the elements */
-}
-
 .stockForm input[type="number"] {
-  width: 50%; /* Adjust based on preference */
-  margin-right: 1rem; /* Right margin only */
-  border-radius: 0.5rem;
-  padding: 0.3rem;
+  width: 40%;
+  margin: 0;
 }
-
 .stockForm select {
-  width: 25%; /* Adjust based on preference */
-  margin: 0; /* No margin as it's already taken care by the wrapper div */
-  border-radius: 0.5rem;
+  color: gray;
 }
 .stockForm button {
-  margin-top: 1rem;
+  width: 130%;
+  background-color: blue;
 }
 
 .stockItemsList {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* This will vertically center the contents */
-  width: 100%;
-  gap: 1rem;
-  padding: 0.2rem 0; /* Optional padding for better spacing */
+  align-items: center;
+  padding: 10px 0; /* Optional, adds a bit of padding between each list item */
 }
 
 .itemDetails {
-  padding-left: 0.5rem;
-  flex-basis: 90%;
-  letter-spacing: 0.1rem;
   display: flex;
-  justify-content: space-between;
-  
-  width: 100%; /* You can adjust this value based on your design preference */
-  gap: 0.5rem; /* Spacing between the name and the quantity */
+  align-items: center;
+  justify-content: flex-start;
 }
 
+.itemName {
+  flex-grow: 1;
+}
 
-.itemQuantity {
-  width: 100px;
- 
-  text-align: left;
-  white-space: nowrap;
+.quantity,
+.unit {
+  display: inline-flex;
+  justify-content: space-between;
+  width: 80px; /* Adjust this value based on your longest quantity or unit */
+}
+
+.quantity {
+  justify-content: flex-end; /* pushes the number to the right */
+}
+
+.unit {
+  justify-content: flex-start; /* pushes the unit to the left */
 }
 
 .itemActions {
-  padding-right: 1rem;
-  flex-basis: 10%;
   display: flex;
-  gap: 0.5rem; /* Gap between buttons */
+  align-items: center;
 }
 
+.faIcon {
+  margin-left: 10px; /* Adjust as needed */
+}
 
 .recipeForm {
   margin-left: 1rem;
   margin-right: 1rem;
   display: flex;
   flex-direction: column;
-  
-  
 }
 
-.recipeForm input { /* Assuming the ingredient name input is of type text */
+.recipeForm input {
+  /* Assuming the ingredient name input is of type text */
   width: 60%;
   margin-top: 0.5rem;
   border-radius: 0.5rem;
@@ -195,8 +197,6 @@ hr {
 .recipeForm button {
   margin-top: 0.5rem;
 }
-
-
 
 .recipeList {
   font-size: 1rem;
@@ -229,9 +229,8 @@ hr {
 .recipeActions {
   display: flex;
   gap: 10px;
-         /* Positioning 10px from the right of .recipeList */
+  /* Positioning 10px from the right of .recipeList */
 }
-
 
 .selectedMealWindow {
   margin: 0.5rem;

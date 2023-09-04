@@ -1,10 +1,19 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
-
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  fas,
+  faPenToSquare,
+  faTrashCan,
+  faR,
+} from "@fortawesome/free-solid-svg-icons";
 
 import "./App.css";
 
 function App() {
+  library.add(fas, faR, faPenToSquare, faTrashCan);
   const [fridgeItems, setFridgeItems] = useState([]);
 
   const [newItemName, setNewItemName] = useState("");
@@ -18,7 +27,6 @@ function App() {
   ]);
 
   const [selectedRecipe, setSelectedRecipe] = useState(null);
-  
 
   // Load fridge items and recipes from local storage on app start
   useEffect(() => {
@@ -153,17 +161,12 @@ function App() {
       }
     });
 
-    
     // Update the fridgeItems state with the new values
     setFridgeItems(updatedFridgeItems);
-    
+
     // Deselect the current recipe
     setSelectedRecipe(null);
-
-    
   }
-  
-
 
   return (
     <Router>
@@ -180,7 +183,10 @@ function App() {
                 <h2>Mahdolliset ruuat</h2>
                 <ul>
                   {possibleMeals.length === 0 && !selectedRecipe ? (
-                    <p>Ei mitään aineksia tehdä mitään! Käy kaupassa tai lisää reseptejä!</p>
+                    <p>
+                      Ei mitään aineksia tehdä mitään! Käy kaupassa tai lisää
+                      reseptejä!
+                    </p>
                   ) : (
                     possibleMeals.map((recipe, idx) => {
                       // Only render the selected recipe if one is selected
@@ -222,13 +228,17 @@ function App() {
                 </ul>
                 {selectedRecipe && (
                   <div className="selectedMealWindow">
-                    <h2>{selectedRecipe.name}, valmistusohjeet - Aika n. 14min</h2>
+                    <h2>
+                      {selectedRecipe.name}, valmistusohjeet - Aika n. 14min
+                    </h2>
                     <ul>
                       {selectedRecipe.ingredients.map((ing, ingIdx) => (
                         <li key={ingIdx}>
-                          <br /><br />
+                          <br />
+                          <br />
                           {ing.name} - {ing.quantity} {ing.unit}
-                          <br /><br />
+                          <br />
+                          <br />
                           1. Heitä kaikki kattilaan ja nauti!
                         </li>
                       ))}
@@ -255,14 +265,14 @@ function App() {
                     type="text"
                     value={newItemName}
                     onChange={(e) => setNewItemName(e.target.value)}
-                    placeholder="Aines"
+                    placeholder="elintarvike"
                   />
                   <div>
                     <input
                       type="number"
                       value={newItemQuantity}
                       onChange={(e) => setNewItemQuantity(e.target.value)}
-                      placeholder="Määrä"
+                      placeholder="määrä"
                     />
                     <select
                       value={newItemUnit}
@@ -272,8 +282,8 @@ function App() {
                       <option value="kg">kg</option>
                       <option value="litraa">litraa</option>
                     </select>
+                    <button type="submit">Lisää</button>
                   </div>
-                  <button type="submit">Lisää</button>
                 </form>
                 <hr />
                 <ul>
@@ -281,16 +291,27 @@ function App() {
                     <li className="stockItemsList" key={idx}>
                       <div className="itemDetails">
                         <div className="itemName">{item.name}</div>
-                        <div className="itemQuantity">
-                          {item.quantity} {item.unit}
-                        </div>
+                        <span className="quantity">{item.quantity}</span>
+                        <span className="unit">{item.unit}</span>
                       </div>
                       <div className="itemActions">
-                        <button onClick={() => handleModifyItem(item.name)}>
-                          Muokkaa
+                        <button
+                          aria-label="Modify item"
+                          onClick={() => handleModifyItem(item.name)}
+                        >
+                          <FontAwesomeIcon
+                            className="faIcon"
+                            icon={faPenToSquare}
+                          />
                         </button>
-                        <button onClick={() => handleRemoveItem(item.name)}>
-                          Poista
+                        <button
+                          aria-label="Remove item"
+                          onClick={() => handleRemoveItem(item.name)}
+                        >
+                          <FontAwesomeIcon
+                            className="faIcon"
+                            icon={faTrashCan}
+                          />
                         </button>
                       </div>
                     </li>
