@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
+
 import "./App.css";
 
 function App() {
   const [fridgeItems, setFridgeItems] = useState([]);
+
   const [newItemName, setNewItemName] = useState("");
   const [newItemQuantity, setNewItemQuantity] = useState("");
   const [newItemUnit, setNewItemUnit] = useState("kpl"); // default unit
@@ -14,6 +16,9 @@ function App() {
   const [newRecipeIngredients, setNewRecipeIngredients] = useState([
     { name: "", quantity: "", unit: "kpl" },
   ]);
+
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  
 
   // Load fridge items and recipes from local storage on app start
   useEffect(() => {
@@ -131,11 +136,40 @@ function App() {
     setNewRecipeIngredients(updatedIngredients);
   };
 
+  function handleTehtyButtonClick(recipe) {
+    // Create a copy of the fridgeItems to update
+    let updatedFridgeItems = [...fridgeItems];
+
+    // For each ingredient in the recipe
+    recipe.ingredients.forEach((recipeIngredient) => {
+      // Find this ingredient in the stock
+      const fridgeItem = updatedFridgeItems.find(
+        (ing) => ing.name === recipeIngredient.name
+      );
+
+      if (fridgeItem) {
+        // Subtract the required amount from the fridge item
+        fridgeItem.quantity -= recipeIngredient.quantity;
+      }
+    });
+
+    
+    // Update the fridgeItems state with the new values
+    setFridgeItems(updatedFridgeItems);
+    
+    // Deselect the current recipe
+    setSelectedRecipe(null);
+
+    
+  }
+  
+
+
   return (
     <Router>
       <div className="App">
         <header>
-          <h1>RUOKA-APPI</h1>
+          <h1>Ruokaappi!</h1>
         </header>
 
         <Routes>
@@ -145,28 +179,68 @@ function App() {
               <>
                 <h2>Mahdolliset ruuat</h2>
                 <ul>
-                  {possibleMeals.length === 0 ? (
-                    <p>
-                      Ei mitään aineksia tehdä mitään! Käy kaupassa!
-                    </p>
+                  {possibleMeals.length === 0 && !selectedRecipe ? (
+                    <p>Ei mitään aineksia tehdä mitään! Käy kaupassa tai lisää reseptejä!</p>
                   ) : (
-                    possibleMeals.map((recipe, idx) => (
-                      <li className="listMeals" key={idx}>
-                        <p>{recipe.name}:</p>
-                        <ul>
-                          {recipe.ingredients.map((ing, ingIdx) => (
-                            <li key={ingIdx} className="ingredientItem">
-                              <span className="ingredientName">{ing.name}</span>
-                              <span className="ingredientQuantity">
-                                ({ing.quantity} {ing.unit})
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
-                    ))
+                    possibleMeals.map((recipe, idx) => {
+                      // Only render the selected recipe if one is selected
+                      if (selectedRecipe && recipe.name !== selectedRecipe.name)
+                        return null;
+                      return (
+                        <li
+                          className="listMeals"
+                          key={idx}
+                          onClick={() => {
+                            // If the recipe is already selected, deselect it
+                            if (
+                              selectedRecipe &&
+                              recipe.name === selectedRecipe.name
+                            ) {
+                              setSelectedRecipe(null);
+                            } else {
+                              setSelectedRecipe(recipe);
+                            }
+                          }}
+                        >
+                          <p>{recipe.name}:</p>
+                          <ul>
+                            {recipe.ingredients.map((ing, ingIdx) => (
+                              <li key={ingIdx} className="ingredientItem">
+                                <span className="ingredientName">
+                                  {ing.name}
+                                </span>
+                                <span className="ingredientQuantity">
+                                  ({ing.quantity} {ing.unit})
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </li>
+                      );
+                    })
                   )}
                 </ul>
+                {selectedRecipe && (
+                  <div className="selectedMealWindow">
+                    <h2>{selectedRecipe.name}, valmistusohjeet - Aika n. 14min</h2>
+                    <ul>
+                      {selectedRecipe.ingredients.map((ing, ingIdx) => (
+                        <li key={ingIdx}>
+                          <br /><br />
+                          {ing.name} - {ing.quantity} {ing.unit}
+                          <br /><br />
+                          1. Heitä kaikki kattilaan ja nauti!
+                        </li>
+                      ))}
+                    </ul>
+                    <button
+                      onClick={() => handleTehtyButtonClick(selectedRecipe)}
+                    >
+                      {" "}
+                      Valmistin tämän ruuan{" "}
+                    </button>
+                  </div>
+                )}
               </>
             }
           />
@@ -201,7 +275,7 @@ function App() {
                   </div>
                   <button type="submit">Lisää</button>
                 </form>
-<hr />
+                <hr />
                 <ul>
                   {fridgeItems.map((item, idx) => (
                     <li className="stockItemsList" key={idx}>
@@ -293,25 +367,30 @@ function App() {
                     <button type="submit">Lisää Resepti</button>
                   </form>
                 </div>
-<hr />
+                <hr />
                 <ul>
                   {recipes.map((recipe, idx) => (
                     <li className="recipeList" key={idx}>
-                    <p>{recipe.name}:</p>
-                    <ul>
-                      {recipe.ingredients.map((ing, ingIdx) => (
-                        <li key={ingIdx} className="ingredientItem">
-                          <span className="ingredientName">{ing.name}</span>
-                          <span className="ingredientQuantity">({ing.quantity} {ing.unit})</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="recipeActions">
-                      <button onClick={() => handleModifyRecipe(recipe.name)}>Muokkaa</button>
-                      <button onClick={() => handleRemoveRecipe(recipe.name)}>Poista</button>
-                    </div>
-                  </li>
-                  
+                      <p>{recipe.name}:</p>
+                      <ul>
+                        {recipe.ingredients.map((ing, ingIdx) => (
+                          <li key={ingIdx} className="ingredientItem">
+                            <span className="ingredientName">{ing.name}</span>
+                            <span className="ingredientQuantity">
+                              ({ing.quantity} {ing.unit})
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="recipeActions">
+                        <button onClick={() => handleModifyRecipe(recipe.name)}>
+                          Muokkaa
+                        </button>
+                        <button onClick={() => handleRemoveRecipe(recipe.name)}>
+                          Poista
+                        </button>
+                      </div>
+                    </li>
                   ))}
                 </ul>
               </>

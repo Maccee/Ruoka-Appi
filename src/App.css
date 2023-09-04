@@ -1,6 +1,6 @@
 .App {
   
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Kanit', sans-serif;
   font-size: 62.5%;
   
   border-radius: 1rem;
@@ -38,7 +38,7 @@ hr {
 }
 .App header {
   margin-bottom: 1rem;
-  
+  font-family: 'Kanit', sans-serif;
   background-color: antiquewhite;
 }
 
@@ -85,6 +85,10 @@ hr {
   margin-bottom: 1rem;
   box-shadow: 4px 4px 10px -6px black;
 }
+.listMeals {
+  transition: all 0.3s ease-out;
+}
+
 .listMeals p {
   font-weight: 700;
   letter-spacing: 0.2rem;
@@ -152,7 +156,7 @@ hr {
   letter-spacing: 0.1rem;
   display: flex;
   justify-content: space-between;
-  align-items: left; 
+  
   width: 100%; /* You can adjust this value based on your design preference */
   gap: 0.5rem; /* Spacing between the name and the quantity */
 }
@@ -226,4 +230,21 @@ hr {
   display: flex;
   gap: 10px;
          /* Positioning 10px from the right of .recipeList */
+}
+
+
+.selectedMealWindow {
+  margin: 0.5rem;
+}
+.selectedMealWindow h2 {
+  font-size: 1rem;
+  letter-spacing: 0.1rem;
+  font-weight: 700;
+}
+.selectedMealWindow ul li {
+  font-size: 1rem;
+  letter-spacing: 0.1rem;
+}
+.selectedMealWindow button {
+  margin: 1rem 0 0 0.5rem;
 }
