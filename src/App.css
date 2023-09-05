@@ -128,7 +128,7 @@ nav ul li a > span {
 }
 
 .stockForm {
-  margin: 0.5rem;
+  margin: 1rem;
 }
 .stockForm div {
   display: flex;
@@ -199,7 +199,7 @@ nav ul li a > span {
 }
 
 .faIcon {
-  color: darkcyan;
+  color: #5670b1;
   font-size: 1.2rem;
 
   margin-right: 0.5rem;
