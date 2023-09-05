@@ -20,24 +20,15 @@ import "./App.css";
 
 function App() {
   library.add(fas, faR, faPenToSquare, faTrashCan);
+
+  const [recipes, setRecipes] = useState([]);
   const [fridgeItems, setFridgeItems] = useState([]);
 
   const [newItemName, setNewItemName] = useState("");
   const [newItemQuantity, setNewItemQuantity] = useState("");
   const [newItemUnit, setNewItemUnit] = useState("kpl"); // default unit
 
-  const [recipes, setRecipes] = useState([]);
-  const [newRecipeName, setNewRecipeName] = useState("");
-  const [newRecipeIngredients, setNewRecipeIngredients] = useState([
-    { name: "", quantity: "", unit: "kpl" },
-  ]);
-  const [newRecipeInstructions, setNewRecipeInstructions] = useState("");
-  const [showInstructions, setShowInstructions] = useState(false);
-
   const [selectedRecipe, setSelectedRecipe] = useState(null);
-
-  const [ingredientCount, setIngredientCount] = useState(0);
-  const inputRefs = useRef([]);
 
   // Load fridge items and recipes from local storage on app start
   useEffect(() => {
@@ -51,10 +42,6 @@ function App() {
   useEffect(() => {
     localStorage.setItem("fridgeItems", JSON.stringify(fridgeItems));
   }, [fridgeItems]);
-
-  useEffect(() => {
-    localStorage.setItem("recipes", JSON.stringify(recipes));
-  }, [recipes]);
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -91,49 +78,6 @@ function App() {
     );
   };
 
-  const handleAddRecipe = (event) => {
-    event.preventDefault();
-    if (showInstructions) {
-      setShowInstructions(!showInstructions);
-    }
-
-    if (
-      newRecipeName &&
-      newRecipeIngredients.every((ing) => ing.name && ing.quantity)
-    ) {
-      const recipeName = capitalizeFirstLetter(newRecipeName);
-      const ingredients = newRecipeIngredients.map((ing) => ({
-        name: capitalizeFirstLetter(ing.name.trim()),
-        quantity: ing.quantity,
-        unit: ing.unit,
-      }));
-
-      const newRecipe = {
-        name: recipeName,
-        ingredients: ingredients,
-        instructions: newRecipeInstructions, // Added this line
-      };
-      setRecipes([...recipes, newRecipe]);
-      setNewRecipeName("");
-      setNewRecipeInstructions(""); // Reset the instructions field
-      setNewRecipeIngredients([{ name: "", quantity: "", unit: "kpl" }]);
-    }
-  };
-
-  const addIngredientToRecipe = () => {
-    setNewRecipeIngredients([
-      ...newRecipeIngredients,
-      { name: "", quantity: "", unit: "kpl" },
-    ]);
-    setIngredientCount(newRecipeIngredients.length + 1);
-  };
-  useEffect(() => {
-    if (ingredientCount > 0 && inputRefs.current.length === ingredientCount) {
-      const lastInput = inputRefs.current[inputRefs.current.length - 1];
-      if (lastInput) lastInput.focus();
-    }
-  }, [ingredientCount, inputRefs.current]);
-
   const possibleMeals = recipes.filter((recipe) =>
     recipe.ingredients.every((ingredient) => {
       const fridgeItem = fridgeItems.find(
@@ -147,27 +91,6 @@ function App() {
       return true;
     })
   );
-
-  const handleRemoveRecipe = (recipeName) => {
-    setRecipes((prevRecipes) =>
-      prevRecipes.filter((recipe) => recipe.name !== recipeName)
-    );
-  };
-
-  const handleModifyRecipe = (recipeName) => {
-    const recipeToModify = recipes.find((recipe) => recipe.name === recipeName);
-    setNewRecipeName(recipeToModify.name);
-    setNewRecipeIngredients(recipeToModify.ingredients);
-    setNewRecipeInstructions(recipeToModify.instructions); // Added this line
-    // Remove the recipe from the list temporarily, until modifications are saved
-    handleRemoveRecipe(recipeName);
-  };
-
-  const handleRemoveRecipeIngredient = (index) => {
-    const updatedIngredients = [...newRecipeIngredients];
-    updatedIngredients.splice(index, 1);
-    setNewRecipeIngredients(updatedIngredients);
-  };
 
   function handleTehtyButtonClick(recipe) {
     // Create a copy of the fridgeItems to update
@@ -238,25 +161,7 @@ function App() {
           />
           <Route
             path="/recipes"
-            element={
-              <Recipes
-                newRecipeName={newRecipeName}
-                setNewRecipeName={setNewRecipeName}
-                newRecipeIngredients={newRecipeIngredients}
-                setNewRecipeIngredients={setNewRecipeIngredients}
-                handleAddRecipe={handleAddRecipe}
-                inputRefs={inputRefs}
-                handleRemoveRecipeIngredient={handleRemoveRecipeIngredient}
-                addIngredientToRecipe={addIngredientToRecipe}
-                showInstructions={showInstructions}
-                setShowInstructions={setShowInstructions}
-                newRecipeInstructions={newRecipeInstructions}
-                setNewRecipeInstructions={setNewRecipeInstructions}
-                recipes={recipes}
-                handleModifyRecipe={handleModifyRecipe}
-                handleRemoveRecipe={handleRemoveRecipe}
-              />
-            }
+            element={<Recipes recipes={recipes} setRecipes={setRecipes} />}
           />
         </Routes>
 

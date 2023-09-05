@@ -1,24 +1,87 @@
 import React from "react";
+import { useState, useEffect, useRef } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
-const Recipes = ({
-  newRecipeName,
-  setNewRecipeName,
-  newRecipeIngredients,
-  setNewRecipeIngredients,
-  handleAddRecipe,
-  inputRefs,
-  handleRemoveRecipeIngredient,
-  addIngredientToRecipe,
-  showInstructions,
-  setShowInstructions,
-  newRecipeInstructions,
-  setNewRecipeInstructions,
-  recipes,
-  handleModifyRecipe,
-  handleRemoveRecipe,
-}) => {
+const Recipes = ({ recipes, setRecipes }) => {
+  const [showInstructions, setShowInstructions] = useState(false);
+  const [newRecipeInstructions, setNewRecipeInstructions] = useState("");
+  const [newRecipeName, setNewRecipeName] = useState("");
+  const [newRecipeIngredients, setNewRecipeIngredients] = useState([
+    { name: "", quantity: "", unit: "kpl" },
+  ]);
+  const inputRefs = useRef([]);
+  const [ingredientCount, setIngredientCount] = useState(0);
+
+  useEffect(() => {
+    localStorage.setItem("recipes", JSON.stringify(recipes));
+  }, [recipes]);
+
+  useEffect(() => {
+    if (ingredientCount > 0 && inputRefs.current.length === ingredientCount) {
+      const lastInput = inputRefs.current[inputRefs.current.length - 1];
+      if (lastInput) lastInput.focus();
+    }
+  }, [ingredientCount, inputRefs.current]);
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  }
+  const handleAddRecipe = (event) => {
+    event.preventDefault();
+    if (showInstructions) {
+      setShowInstructions(!showInstructions);
+    }
+    if (
+      newRecipeName &&
+      newRecipeIngredients.every((ing) => ing.name && ing.quantity)
+    ) {
+      const recipeName = capitalizeFirstLetter(newRecipeName);
+      const ingredients = newRecipeIngredients.map((ing) => ({
+        name: capitalizeFirstLetter(ing.name.trim()),
+        quantity: ing.quantity,
+        unit: ing.unit,
+      }));
+      const newRecipe = {
+        name: recipeName,
+        ingredients: ingredients,
+        instructions: newRecipeInstructions, // Added this line
+      };
+      setRecipes([...recipes, newRecipe]);
+      setNewRecipeName("");
+      setNewRecipeInstructions(""); // Reset the instructions field
+      setNewRecipeIngredients([{ name: "", quantity: "", unit: "kpl" }]);
+    }
+  };
+
+  const handleRemoveRecipeIngredient = (index) => {
+    const updatedIngredients = [...newRecipeIngredients];
+    updatedIngredients.splice(index, 1);
+    setNewRecipeIngredients(updatedIngredients);
+  };
+
+  const addIngredientToRecipe = () => {
+    setNewRecipeIngredients([
+      ...newRecipeIngredients,
+      { name: "", quantity: "", unit: "kpl" },
+    ]);
+    setIngredientCount(newRecipeIngredients.length + 1);
+  };
+
+  const handleRemoveRecipe = (recipeName) => {
+    setRecipes((prevRecipes) =>
+      prevRecipes.filter((recipe) => recipe.name !== recipeName)
+    );
+  };
+
+  const handleModifyRecipe = (recipeName) => {
+    const recipeToModify = recipes.find((recipe) => recipe.name === recipeName);
+    setNewRecipeName(recipeToModify.name);
+    setNewRecipeIngredients(recipeToModify.ingredients);
+    setNewRecipeInstructions(recipeToModify.instructions);
+    handleRemoveRecipe(recipeName);
+  };
   return (
     <>
       <h2>Reseptit - Lisää</h2>
