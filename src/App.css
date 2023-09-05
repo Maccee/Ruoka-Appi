@@ -177,7 +177,8 @@ hr {
 }
 
 .faIcon {
-  margin-left: 10px; /* Adjust as needed */
+  margin-left: 0.5rem;
+  margin-right: 1rem;
 }
 
 .recipeForm {
