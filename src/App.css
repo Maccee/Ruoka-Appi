@@ -3,7 +3,7 @@
   font-size: 62.5%;
   border-radius: 1rem;
   height: 100vh;
-  background-color: rgb(211, 255, 240);
+  background-color: #b0e0e6;
 }
 hr {
   margin-top: 1rem;
@@ -30,16 +30,15 @@ hr {
 }
 .App header {
   margin-bottom: 1rem;
-
-  background-color: antiquewhite;
+  color: #eaecee;
+  background-color: #001f3f;
 }
 
 .App ul {
   font-size: 1rem;
   letter-spacing: 0.1rem;
 }
-.App ul button {
-}
+
 .App nav {
   position: fixed;
   bottom: 0;
@@ -48,7 +47,7 @@ hr {
   margin-top: 1rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  background-color: antiquewhite;
+  background-color: #2c3e50;
 
   border-top: 1px dashed rgb(199, 199, 199);
 }
@@ -71,7 +70,7 @@ hr {
   height: 2.5rem;
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
-  font-size: 1.5rem;
+  font-size: 1rem;
   padding-left: 1rem;
   box-sizing: border-box;
   border: 1px solid black;
@@ -128,28 +127,39 @@ hr {
   gap: 2rem;
 }
 .stockForm input[type="number"] {
-  width: 40%;
   margin: 0;
+  flex-basis: 30%;
 }
 .stockForm select {
-  color: gray;
+  flex-basis: 30%;
 }
 .stockForm button {
-  width: 130%;
-  background-color: blue;
+  flex-basis: 30%;
+  border-radius: 0.5rem;
+  background-color: #5670b1;
+  padding: 0.5rem;
+  height: 2.5rem;
+font-size: 1.1rem;
+letter-spacing: 0.2rem;
+  color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .stockItemsList {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0; /* Optional, adds a bit of padding between each list item */
+
+  padding-bottom: 0.5rem;
+  margin-inline-start: 0.5rem;
+  margin-inline-end: 0.5rem;
 }
 
 .itemDetails {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  width: 100%;
 }
 
 .itemName {
@@ -159,24 +169,25 @@ hr {
 .quantity,
 .unit {
   display: inline-flex;
-  justify-content: space-between;
-  width: 80px; /* Adjust this value based on your longest quantity or unit */
+  width: 50px;
 }
 
 .quantity {
-  justify-content: flex-end; /* pushes the number to the right */
+  justify-content: flex-end;
+  padding-right: 0.5rem;
 }
 
 .unit {
-  justify-content: flex-start; /* pushes the unit to the left */
+  justify-content: flex-start;
 }
 
 .itemActions {
   display: flex;
-  align-items: center;
 }
 
 .faIcon {
+  color: darkcyan;
+  font-size: 1.2rem;
   margin-left: 0.5rem;
   margin-right: 1rem;
 }
