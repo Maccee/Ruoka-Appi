@@ -24,10 +24,6 @@ function App() {
   const [recipes, setRecipes] = useState([]); // MealList, Recipes
   const [fridgeItems, setFridgeItems] = useState([]); // MealLisst
 
-  const [newItemName, setNewItemName] = useState("");
-  const [newItemQuantity, setNewItemQuantity] = useState("");
-  const [newItemUnit, setNewItemUnit] = useState("kpl");
-
   useEffect(() => {
     const savedItems = localStorage.getItem("fridgeItems");
     const savedRecipes = localStorage.getItem("recipes");
@@ -35,48 +31,9 @@ function App() {
     if (savedRecipes) setRecipes(JSON.parse(savedRecipes));
   }, []);
 
-  // Save to local storage whenever fridgeItems or recipes change
   useEffect(() => {
     localStorage.setItem("fridgeItems", JSON.stringify(fridgeItems));
   }, [fridgeItems]);
-
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-  }
-
-  const handleAddItem = (event) => {
-    event.preventDefault();
-    if (!newItemQuantity || newItemQuantity <= 0) {
-      return;
-    }
-    if (newItemName) {
-      const itemName = capitalizeFirstLetter(newItemName.trim());
-      const newItem = {
-        name: itemName,
-        quantity: parseFloat(newItemQuantity), // convert string to float
-        unit: newItemUnit,
-      };
-      setFridgeItems([...fridgeItems, newItem]);
-      setNewItemName("");
-      setNewItemQuantity("");
-    }
-  };
-
-  const handleModifyItem = (itemName) => {
-    const itemToModify = fridgeItems.find((item) => item.name === itemName);
-    setNewItemName(itemToModify.name);
-    setNewItemQuantity(itemToModify.quantity.toString()); // convert number to string
-    setNewItemUnit(itemToModify.unit);
-    // Remove the item from the list temporarily, until modifications are saved
-    setFridgeItems((prevItems) =>
-      prevItems.filter((item) => item.name !== itemName)
-    );
-  };
-  const handleRemoveItem = (itemName) => {
-    setFridgeItems((prevItems) =>
-      prevItems.filter((item) => item.name !== itemName)
-    );
-  };
 
   // Update the fridgeItems state with the new values
 
@@ -102,16 +59,8 @@ function App() {
             path="/stock"
             element={
               <Stock
-                newItemName={newItemName}
-                setNewItemName={setNewItemName}
-                newItemQuantity={newItemQuantity}
-                setNewItemQuantity={setNewItemQuantity}
-                newItemUnit={newItemUnit}
-                setNewItemUnit={setNewItemUnit}
-                handleAddItem={handleAddItem}
                 fridgeItems={fridgeItems}
-                handleModifyItem={handleModifyItem}
-                handleRemoveItem={handleRemoveItem}
+                setFridgeItems={setFridgeItems}
               />
             }
           />

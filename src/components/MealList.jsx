@@ -9,31 +9,23 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
       const fridgeItem = fridgeItems.find(
         (item) => item.name === ingredient.name
       );
-      // If ingredient is not in fridge, or the quantity in fridge is less than needed, return false
       if (!fridgeItem || fridgeItem.quantity < ingredient.quantity) {
         return false;
       }
-      // Otherwise, this ingredient is okay
       return true;
     })
   );
 
   function handleTehtyButtonClick(recipe) {
-    // Create a copy of the fridgeItems to update
     let updatedFridgeItems = [...fridgeItems];
-
-    // For each ingredient in the recipe
     recipe.ingredients.forEach((recipeIngredient) => {
-      // Find this ingredient in the stock
       const fridgeItem = updatedFridgeItems.find(
         (ing) => ing.name === recipeIngredient.name
       );
-
       if (fridgeItem) {
-        // Subtract the required amount from the fridge item
-        fridgeItem.quantity -= recipeIngredient.quantity;
-
-        // If the quantity of the fridge item reaches 0, remove it from the list
+        fridgeItem.quantity = parseFloat(
+          (fridgeItem.quantity - recipeIngredient.quantity).toFixed(1)
+        );
         if (fridgeItem.quantity <= 0) {
           updatedFridgeItems = updatedFridgeItems.filter(
             (item) => item.name !== fridgeItem.name
@@ -41,17 +33,17 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
         }
       }
     });
-    // Deselect the current recipe
     setSelectedRecipe(null);
     setFridgeItems(updatedFridgeItems);
   }
+
   return (
     <>
       <h2>Mahdolliset ruuat</h2>
       <hr />
       <ul>
         {possibleMeals.length === 0 && !selectedRecipe ? (
-          <p>
+          <p className="defaultMessage">
             Ei mitään aineksia tehdä mitään! Käy kaupassa tai lisää reseptejä!
           </p>
         ) : (

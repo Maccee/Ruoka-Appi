@@ -2,6 +2,10 @@
   font-family: "Kanit", sans-serif;
   font-size: 62.5%;
   background-color: #d3d3d3;
+  height: 95vh;
+}
+.defaultMessage {
+  margin: 0.5rem;
 }
 hr {
   margin-top: 1rem;
