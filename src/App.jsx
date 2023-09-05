@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import React, { useRef } from "react";
 
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import MealList from "./components/MealList";
+import Stock from "./components/Stock";
+import Recipes from "./components/Recipes";
+
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -207,260 +211,51 @@ function App() {
           <Route
             path="/"
             element={
-              <>
-                <h2>Mahdolliset ruuat</h2>
-                <hr />
-                <ul>
-                  {possibleMeals.length === 0 && !selectedRecipe ? (
-                    <p>
-                      Ei mitään aineksia tehdä mitään! Käy kaupassa tai lisää
-                      reseptejä!
-                    </p>
-                  ) : (
-                    possibleMeals.map((recipe, idx) => {
-                      return (
-                        <li
-                          className="listMeals"
-                          key={idx}
-                          onClick={() => {
-                            if (
-                              selectedRecipe &&
-                              recipe.name === selectedRecipe.name
-                            ) {
-                              setSelectedRecipe(null);
-                            } else {
-                              setSelectedRecipe(recipe);
-                            }
-                          }}
-                        >
-                          <p>{recipe.name}:</p>
-                          <ul>
-                            {recipe.ingredients.map((ing, ingIdx) => (
-                              <li key={ingIdx} className="ingredientItem">
-                                <span className="ingredientName">
-                                  {ing.name}
-                                </span>
-                                <span className="ingredientQuantity">
-                                  ({ing.quantity} {ing.unit})
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
-
-                          {selectedRecipe &&
-                            recipe.name === selectedRecipe.name && (
-                              <div className="selectedMealWindow">
-                                <hr />
-                                <h2>Valmistusohjeet</h2>
-                                <p>{selectedRecipe.instructions}</p>
-                                <button
-                                  onClick={() =>
-                                    handleTehtyButtonClick(selectedRecipe)
-                                  }
-                                >
-                                  Valmistin tämän ruuan
-                                </button>
-                              </div>
-                            )}
-                        </li>
-                      );
-                    })
-                  )}
-                </ul>
-              </>
+              <MealList
+                possibleMeals={possibleMeals}
+                selectedRecipe={selectedRecipe}
+                setSelectedRecipe={setSelectedRecipe}
+                handleTehtyButtonClick={handleTehtyButtonClick}
+              />
             }
           />
-
           <Route
             path="/stock"
             element={
-              <>
-                <h2>Ainekset ja Tarvikket</h2>
-                <form className="stockForm" onSubmit={handleAddItem}>
-                  <input
-                    type="text"
-                    value={newItemName}
-                    onChange={(e) => setNewItemName(e.target.value)}
-                    placeholder="elintarvike"
-                  />
-                  <div>
-                    <input
-                      type="number"
-                      value={newItemQuantity}
-                      onChange={(e) => setNewItemQuantity(e.target.value)}
-                      placeholder="määrä"
-                    />
-                    <select
-                      value={newItemUnit}
-                      onChange={(e) => setNewItemUnit(e.target.value)}
-                    >
-                      <option value="kpl">kpl</option>
-                      <option value="g">g</option>
-                      <option value="litraa">litraa</option>
-                    </select>
-                    <button type="submit">Lisää</button>
-                  </div>
-                </form>
-                <hr />
-                <ul>
-                  {fridgeItems.map((item, idx) => (
-                    <li className="stockItemsList" key={idx}>
-                      <div className="itemDetails">
-                        <div className="itemName">{item.name}</div>
-                        <span className="quantity">{item.quantity}</span>
-                        <span className="unit">{item.unit}</span>
-                      </div>
-                      <div className="itemActions">
-                        <button
-                          aria-label="Modify item"
-                          onClick={() => handleModifyItem(item.name)}
-                        >
-                          <FontAwesomeIcon
-                            className="faIcon"
-                            icon={faPenToSquare}
-                          />
-                        </button>
-                        <button
-                          aria-label="Remove item"
-                          onClick={() => handleRemoveItem(item.name)}
-                        >
-                          <FontAwesomeIcon
-                            className="faIcon"
-                            icon={faTrashCan}
-                          />
-                        </button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </>
+              <Stock
+                newItemName={newItemName}
+                setNewItemName={setNewItemName}
+                newItemQuantity={newItemQuantity}
+                setNewItemQuantity={setNewItemQuantity}
+                newItemUnit={newItemUnit}
+                setNewItemUnit={setNewItemUnit}
+                handleAddItem={handleAddItem}
+                fridgeItems={fridgeItems}
+                handleModifyItem={handleModifyItem}
+                handleRemoveItem={handleRemoveItem}
+              />
             }
           />
-
           <Route
             path="/recipes"
             element={
-              <>
-                <h2>Reseptit - Lisää</h2>
-                <div>
-                  <form className="recipeForm" onSubmit={handleAddRecipe}>
-                    <input
-                      value={newRecipeName}
-                      onChange={(e) => setNewRecipeName(e.target.value)}
-                      placeholder="reseptin nimi"
-                    />
-                    <br />
-                    <br />
-                    <br />
-                    {newRecipeIngredients.map((ingredient, idx) => (
-                      <div key={idx}>
-                        <input
-                          ref={(el) => (inputRefs.current[idx] = el)}
-                          value={ingredient.name}
-                          onChange={(e) => {
-                            const updatedIngredients = [
-                              ...newRecipeIngredients,
-                            ];
-                            updatedIngredients[idx].name = e.target.value;
-                            setNewRecipeIngredients(updatedIngredients);
-                          }}
-                          placeholder="aines"
-                        />
-
-                        <div className="quantityDiv">
-                          <input
-                            type="number"
-                            value={ingredient.quantity}
-                            onChange={(e) => {
-                              const updatedIngredients = [
-                                ...newRecipeIngredients,
-                              ];
-                              updatedIngredients[idx].quantity = e.target.value;
-                              setNewRecipeIngredients(updatedIngredients);
-                            }}
-                            placeholder="määrä"
-                          />
-                          <select
-                            value={ingredient.unit}
-                            onChange={(e) => {
-                              const updatedIngredients = [
-                                ...newRecipeIngredients,
-                              ];
-                              updatedIngredients[idx].unit = e.target.value;
-                              setNewRecipeIngredients(updatedIngredients);
-                            }}
-                          >
-                            <option value="kpl">kpl</option>
-                            <option value="g">g</option>
-                            <option value="litraa">litraa</option>
-                          </select>
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveRecipeIngredient(idx)}
-                          >
-                            Poista
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                    <div className="reseptiNapit">
-                      <button type="submit" onClick={addIngredientToRecipe}>
-                        Lisää Aines
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setShowInstructions(!showInstructions)}
-                      >
-                        Ohjeet
-                      </button>
-                      <button type="button" onClick={handleAddRecipe}>
-                        Lisää Resepti
-                      </button>
-                    </div>
-                    {showInstructions && (
-                      <textarea
-                        value={newRecipeInstructions}
-                        onChange={(e) =>
-                          setNewRecipeInstructions(e.target.value)
-                        }
-                        placeholder="Valmistusohjeet"
-                      />
-                    )}
-                  </form>
-                </div>
-                <hr />
-                <ul>
-                  {recipes.map((recipe, idx) => (
-                    <li className="recipeList" key={idx}>
-                      <p>{recipe.name}:</p>
-                      <ul>
-                        {recipe.ingredients.map((ing, ingIdx) => (
-                          <li key={ingIdx} className="ingredientItem">
-                            <span className="ingredientName">{ing.name}</span>
-                            <span className="ingredientQuantity">
-                              ({ing.quantity} {ing.unit})
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                      <div className="recipeActions">
-                        <button onClick={() => handleModifyRecipe(recipe.name)}>
-                          <FontAwesomeIcon
-                            className="faIcon"
-                            icon={faPenToSquare}
-                          />
-                        </button>
-                        <button onClick={() => handleRemoveRecipe(recipe.name)}>
-                          <FontAwesomeIcon
-                            className="faIcon"
-                            icon={faTrashCan}
-                          />
-                        </button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </>
+              <Recipes
+                newRecipeName={newRecipeName}
+                setNewRecipeName={setNewRecipeName}
+                newRecipeIngredients={newRecipeIngredients}
+                setNewRecipeIngredients={setNewRecipeIngredients}
+                handleAddRecipe={handleAddRecipe}
+                inputRefs={inputRefs}
+                handleRemoveRecipeIngredient={handleRemoveRecipeIngredient}
+                addIngredientToRecipe={addIngredientToRecipe}
+                showInstructions={showInstructions}
+                setShowInstructions={setShowInstructions}
+                newRecipeInstructions={newRecipeInstructions}
+                setNewRecipeInstructions={setNewRecipeInstructions}
+                recipes={recipes}
+                handleModifyRecipe={handleModifyRecipe}
+                handleRemoveRecipe={handleRemoveRecipe}
+              />
             }
           />
         </Routes>
