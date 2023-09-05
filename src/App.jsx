@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import React, { useRef } from "react";
+
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
@@ -27,6 +29,9 @@ function App() {
   ]);
 
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+
+  const [ingredientCount, setIngredientCount] = useState(0);
+  const inputRefs = useRef([]);
 
   // Load fridge items and recipes from local storage on app start
   useEffect(() => {
@@ -109,7 +114,14 @@ function App() {
       ...newRecipeIngredients,
       { name: "", quantity: "", unit: "kpl" },
     ]);
+    setIngredientCount(newRecipeIngredients.length + 1);
   };
+  useEffect(() => {
+    if (ingredientCount > 0 && inputRefs.current.length === ingredientCount) {
+        const lastInput = inputRefs.current[inputRefs.current.length - 1];
+        if (lastInput) lastInput.focus();
+    }
+}, [ingredientCount, inputRefs.current]);
 
   const possibleMeals = recipes.filter((recipe) =>
     recipe.ingredients.every((ingredient) => {
@@ -279,7 +291,7 @@ function App() {
                       onChange={(e) => setNewItemUnit(e.target.value)}
                     >
                       <option value="kpl">kpl</option>
-                      <option value="kg">kg</option>
+                      <option value="g">g</option>
                       <option value="litraa">litraa</option>
                     </select>
                     <button type="submit">Lisää</button>
@@ -331,12 +343,15 @@ function App() {
                     <input
                       value={newRecipeName}
                       onChange={(e) => setNewRecipeName(e.target.value)}
-                      placeholder="Resepti"
+                      placeholder="reseptin nimi"
                     />
-
+                    <br />
+                    <br />
+                    <br />
                     {newRecipeIngredients.map((ingredient, idx) => (
                       <div key={idx}>
                         <input
+                          ref={(el) => (inputRefs.current[idx] = el)}
                           value={ingredient.name}
                           onChange={(e) => {
                             const updatedIngredients = [
@@ -345,47 +360,53 @@ function App() {
                             updatedIngredients[idx].name = e.target.value;
                             setNewRecipeIngredients(updatedIngredients);
                           }}
-                          placeholder="Aines"
+                          placeholder="aines"
                         />
-                        <input
-                          type="number"
-                          value={ingredient.quantity}
-                          onChange={(e) => {
-                            const updatedIngredients = [
-                              ...newRecipeIngredients,
-                            ];
-                            updatedIngredients[idx].quantity = e.target.value;
-                            setNewRecipeIngredients(updatedIngredients);
-                          }}
-                          placeholder="Määrä"
-                        />
-                        <select
-                          value={ingredient.unit}
-                          onChange={(e) => {
-                            const updatedIngredients = [
-                              ...newRecipeIngredients,
-                            ];
-                            updatedIngredients[idx].unit = e.target.value;
-                            setNewRecipeIngredients(updatedIngredients);
-                          }}
-                        >
-                          <option value="kpl">kpl</option>
-                          <option value="kg">kg</option>
-                          <option value="litraa">litraa</option>
-                        </select>
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveRecipeIngredient(idx)}
-                        >
-                          Poista Aines
-                        </button>
+
+                        <div className="quantityDiv">
+                          <input
+                            type="number"
+                            value={ingredient.quantity}
+                            onChange={(e) => {
+                              const updatedIngredients = [
+                                ...newRecipeIngredients,
+                              ];
+                              updatedIngredients[idx].quantity = e.target.value;
+                              setNewRecipeIngredients(updatedIngredients);
+                            }}
+                            placeholder="määrä"
+                          />
+                          <select
+                            value={ingredient.unit}
+                            onChange={(e) => {
+                              const updatedIngredients = [
+                                ...newRecipeIngredients,
+                              ];
+                              updatedIngredients[idx].unit = e.target.value;
+                              setNewRecipeIngredients(updatedIngredients);
+                            }}
+                          >
+                            <option value="kpl">kpl</option>
+                            <option value="g">g</option>
+                            <option value="litraa">litraa</option>
+                          </select>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveRecipeIngredient(idx)}
+                          >
+                            Poista
+                          </button>
+                        </div>
                       </div>
                     ))}
-
-                    <button type="button" onClick={addIngredientToRecipe}>
-                      Lisää Uusi Aines
-                    </button>
-                    <button type="submit">Lisää Resepti</button>
+                    <div className="reseptiNapit">
+                      <button type="submit" onClick={addIngredientToRecipe}>
+                        Lisää Aines
+                      </button>
+                      <button type="button" onClick={handleAddRecipe}>
+                        Lisää Resepti
+                      </button>
+                    </div>
                   </form>
                 </div>
                 <hr />
@@ -405,10 +426,16 @@ function App() {
                       </ul>
                       <div className="recipeActions">
                         <button onClick={() => handleModifyRecipe(recipe.name)}>
-                          Muokkaa
+                          <FontAwesomeIcon
+                            className="faIcon"
+                            icon={faPenToSquare}
+                          />
                         </button>
                         <button onClick={() => handleRemoveRecipe(recipe.name)}>
-                          Poista
+                          <FontAwesomeIcon
+                            className="faIcon"
+                            icon={faTrashCan}
+                          />
                         </button>
                       </div>
                     </li>
@@ -441,7 +468,6 @@ function App() {
             </li>
           </ul>
         </nav>
-        
       </div>
     </Router>
   );

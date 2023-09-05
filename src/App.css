@@ -92,6 +92,8 @@ nav ul li a > span {
   width: 50%;
 }
 .App select {
+  width: 50px;
+  box-sizing: border-box;
   background-color: white;
   height: 2.5rem;
   border-radius: 0.5rem;
@@ -142,9 +144,7 @@ nav ul li a > span {
   margin: 0;
   flex-basis: 30%;
 }
-.stockForm select {
-  flex-basis: 30%;
-}
+
 .stockForm button {
   flex-basis: 30%;
   border-radius: 0.5rem;
@@ -152,7 +152,7 @@ nav ul li a > span {
   padding: 0.5rem;
   height: 2.5rem;
   font-size: 1.1rem;
-  letter-spacing: 0.2rem;
+  letter-spacing: 0.1rem;
   color: #ffffff;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
 }
@@ -200,27 +200,52 @@ nav ul li a > span {
 
 .faIcon {
   color: #5670b1;
-  font-size: 1.2rem;
-
+  font-size: 1.5rem;
   margin-right: 0.5rem;
 }
 
 .recipeForm {
-  margin-left: 1rem;
-  margin-right: 1rem;
+  margin: 1rem;
+}
+.recipeForm div {
   display: flex;
   flex-direction: column;
 }
 
 .recipeForm input {
   /* Assuming the ingredient name input is of type text */
-  width: 60%;
-  margin-top: 0.5rem;
-  border-radius: 0.5rem;
-  padding: 0.3rem;
+  width: 100%;
+  
+}
+.recipeForm .quantityDiv {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  justify-content: space-between;
+}
+.recipeForm .quantityDiv > * {
+  flex-basis: 30%;
+}
+.recipeForm .quantityDiv select {
+flex-basis: 0;
 }
 .recipeForm button {
-  margin-top: 0.5rem;
+  flex-basis: 30%;
+  border-radius: 0.5rem;
+  background-color: #5670b1;
+  padding: 0.5rem;
+  height: 2.5rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.1rem;
+  color: #ffffff;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+}
+.recipeForm .reseptiNapit {
+  white-space:nowrap;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  justify-content: space-between;
 }
 
 .recipeList {
@@ -252,8 +277,10 @@ nav ul li a > span {
 }
 
 .recipeActions {
+  margin-top: 0.5rem;
   display: flex;
-  gap: 10px;
+  gap: 0.5rem;
+  justify-content: flex-end;
   /* Positioning 10px from the right of .recipeList */
 }
 
