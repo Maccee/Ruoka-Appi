@@ -422,16 +422,26 @@ function App() {
         <nav>
           <ul>
             <li>
-              <Link to="/">Alkuun</Link>
+              <Link to="/">
+                <FontAwesomeIcon icon="fa-solid fa-utensils" />
+                <span>Ruuat</span>
+              </Link>
             </li>
             <li>
-              <Link to="/stock">Tarvikkeet</Link>
+              <Link to="/stock">
+                <FontAwesomeIcon icon="fa-solid fa-cubes-stacked" />
+                <span>Ainekset</span>
+              </Link>
             </li>
             <li>
-              <Link to="/recipes">Reseptit</Link>
+              <Link to="/recipes">
+                <FontAwesomeIcon icon="fa-solid fa-book" />
+                <span>Reseptit</span>
+              </Link>
             </li>
           </ul>
         </nav>
+        
       </div>
     </Router>
   );
