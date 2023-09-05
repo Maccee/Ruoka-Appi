@@ -1,0 +1,18 @@
+.NavyBlue header nav hr {
+  color: #001f3f;
+}
+.DarkerBlue {
+  color: #003366;
+}
+.LighterBlue {
+  color: #0066cc;
+}
+.LightBlue .faIcon button {
+  color: #007fff;
+}
+.BlueGray {
+  color: #6699a6;
+}
+.LightGray .App {
+  color: #d3d3d3;
+}

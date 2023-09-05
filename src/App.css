@@ -1,12 +1,12 @@
 .App {
   font-family: "Kanit", sans-serif;
   font-size: 62.5%;
-  background-color: #b0e0e6;
+  background-color: #D3D3D3;
 }
 hr {
   margin-top: 1rem;
   margin-bottom: 1rem;
-  color: rgb(156, 156, 156);
+  color: #001F3F;
 }
 .App a {
   text-decoration: none;
@@ -22,7 +22,7 @@ hr {
   font-size: 3rem;
   letter-spacing: 0.1rem;
   padding: 0.5rem;
-  border-bottom: 1px dashed rgb(199, 199, 199);
+  border-bottom: 1px dashed #d3d3d3;
 }
 .App h2 {
   font-size: 1.5rem;
@@ -31,7 +31,7 @@ hr {
 }
 .App header {
   color: #eaecee;
-  background-color: #001f3f;
+  background-color: #001F3F;
 }
 .App ul {
   font-size: 1rem;
@@ -44,8 +44,8 @@ hr {
   bottom: 0;
   color: white;
   width: 100%;
-  background-color: #001f3f;
-  border-top: 1px dashed rgb(199, 199, 199);
+  background-color: #001F3F;
+  border-top: 1px dashed #d3d3d3;
   display: flex;
   align-items: center;
 }
@@ -66,7 +66,7 @@ hr {
   margin-right: 1rem;
 }
 nav ul li a {
-  color: #869dd8;
+  color: #007FFF;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -103,7 +103,7 @@ nav ul li a > span {
 
 .listMeals {
   font-size: 1rem;
-  border: 1px solid rgb(227, 227, 227);
+  border: 1px solid #001F3F;
   border-radius: 1rem;
   padding: 0.5rem;
   background-color: white;
@@ -148,7 +148,7 @@ nav ul li a > span {
 .stockForm button {
   flex-basis: 30%;
   border-radius: 0.5rem;
-  background-color: #5670b1;
+  background-color: #007FFF;
   padding: 0.5rem;
   height: 2.5rem;
   font-size: 1.1rem;
@@ -199,7 +199,7 @@ nav ul li a > span {
 }
 
 .faIcon {
-  color: #5670b1;
+  color: #007FFF;
   font-size: 1.5rem;
   margin-right: 0.5rem;
 }
@@ -232,7 +232,7 @@ flex-basis: 0;
 .recipeForm button {
   flex-basis: 30%;
   border-radius: 0.5rem;
-  background-color: #5670b1;
+  background-color: #007FFF;
   padding: 0.5rem;
   height: 2.5rem;
   font-size: 1.1rem;
@@ -247,13 +247,21 @@ flex-basis: 0;
   gap: 2rem;
   justify-content: space-between;
 }
+.recipeForm textarea {
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  height: 100px;
+  resize: none;
+  width: 100%;
+}
 
 .recipeList {
   font-size: 1rem;
-  border: 1px solid rgb(227, 227, 227);
+  border: 1px solid #001f3f;
   border-radius: 1rem;
   padding: 0.5rem;
-  background-color: white;
+  background-color:white;
   margin-bottom: 1rem;
   box-shadow: 4px 4px 10px -6px black;
   position: relative; /* Added to position the buttons at the bottom */

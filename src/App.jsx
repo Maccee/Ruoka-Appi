@@ -27,6 +27,8 @@ function App() {
   const [newRecipeIngredients, setNewRecipeIngredients] = useState([
     { name: "", quantity: "", unit: "kpl" },
   ]);
+  const [newRecipeInstructions, setNewRecipeInstructions] = useState("");
+  const [showInstructions, setShowInstructions] = useState(false);
 
   const [selectedRecipe, setSelectedRecipe] = useState(null);
 
@@ -87,6 +89,9 @@ function App() {
 
   const handleAddRecipe = (event) => {
     event.preventDefault();
+    if (showInstructions) {
+      setShowInstructions(!showInstructions);
+    }
 
     if (
       newRecipeName &&
@@ -102,9 +107,11 @@ function App() {
       const newRecipe = {
         name: recipeName,
         ingredients: ingredients,
+        instructions: newRecipeInstructions, // Added this line
       };
       setRecipes([...recipes, newRecipe]);
       setNewRecipeName("");
+      setNewRecipeInstructions(""); // Reset the instructions field
       setNewRecipeIngredients([{ name: "", quantity: "", unit: "kpl" }]);
     }
   };
@@ -118,10 +125,10 @@ function App() {
   };
   useEffect(() => {
     if (ingredientCount > 0 && inputRefs.current.length === ingredientCount) {
-        const lastInput = inputRefs.current[inputRefs.current.length - 1];
-        if (lastInput) lastInput.focus();
+      const lastInput = inputRefs.current[inputRefs.current.length - 1];
+      if (lastInput) lastInput.focus();
     }
-}, [ingredientCount, inputRefs.current]);
+  }, [ingredientCount, inputRefs.current]);
 
   const possibleMeals = recipes.filter((recipe) =>
     recipe.ingredients.every((ingredient) => {
@@ -147,9 +154,11 @@ function App() {
     const recipeToModify = recipes.find((recipe) => recipe.name === recipeName);
     setNewRecipeName(recipeToModify.name);
     setNewRecipeIngredients(recipeToModify.ingredients);
+    setNewRecipeInstructions(recipeToModify.instructions); // Added this line
     // Remove the recipe from the list temporarily, until modifications are saved
     handleRemoveRecipe(recipeName);
   };
+
   const handleRemoveRecipeIngredient = (index) => {
     const updatedIngredients = [...newRecipeIngredients];
     updatedIngredients.splice(index, 1);
@@ -170,6 +179,13 @@ function App() {
       if (fridgeItem) {
         // Subtract the required amount from the fridge item
         fridgeItem.quantity -= recipeIngredient.quantity;
+
+        // If the quantity of the fridge item reaches 0, remove it from the list
+        if (fridgeItem.quantity <= 0) {
+          updatedFridgeItems = updatedFridgeItems.filter(
+            (item) => item.name !== fridgeItem.name
+          );
+        }
       }
     });
 
@@ -193,6 +209,7 @@ function App() {
             element={
               <>
                 <h2>Mahdolliset ruuat</h2>
+                <hr />
                 <ul>
                   {possibleMeals.length === 0 && !selectedRecipe ? (
                     <p>
@@ -201,15 +218,11 @@ function App() {
                     </p>
                   ) : (
                     possibleMeals.map((recipe, idx) => {
-                      // Only render the selected recipe if one is selected
-                      if (selectedRecipe && recipe.name !== selectedRecipe.name)
-                        return null;
                       return (
                         <li
                           className="listMeals"
                           key={idx}
                           onClick={() => {
-                            // If the recipe is already selected, deselect it
                             if (
                               selectedRecipe &&
                               recipe.name === selectedRecipe.name
@@ -233,36 +246,26 @@ function App() {
                               </li>
                             ))}
                           </ul>
+
+                          {selectedRecipe &&
+                            recipe.name === selectedRecipe.name && (
+                              <div className="selectedMealWindow">
+                                <h2>Valmistusohjeet</h2>
+                                <p>{selectedRecipe.instructions}</p>
+                                <button
+                                  onClick={() =>
+                                    handleTehtyButtonClick(selectedRecipe)
+                                  }
+                                >
+                                  Valmistin tämän ruuan
+                                </button>
+                              </div>
+                            )}
                         </li>
                       );
                     })
                   )}
                 </ul>
-                {selectedRecipe && (
-                  <div className="selectedMealWindow">
-                    <h2>
-                      {selectedRecipe.name}, valmistusohjeet - Aika n. 14min
-                    </h2>
-                    <ul>
-                      {selectedRecipe.ingredients.map((ing, ingIdx) => (
-                        <li key={ingIdx}>
-                          <br />
-                          <br />
-                          {ing.name} - {ing.quantity} {ing.unit}
-                          <br />
-                          <br />
-                          1. Heitä kaikki kattilaan ja nauti!
-                        </li>
-                      ))}
-                    </ul>
-                    <button
-                      onClick={() => handleTehtyButtonClick(selectedRecipe)}
-                    >
-                      {" "}
-                      Valmistin tämän ruuan{" "}
-                    </button>
-                  </div>
-                )}
               </>
             }
           />
@@ -403,10 +406,25 @@ function App() {
                       <button type="submit" onClick={addIngredientToRecipe}>
                         Lisää Aines
                       </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowInstructions(!showInstructions)}
+                      >
+                        Ohjeet
+                      </button>
                       <button type="button" onClick={handleAddRecipe}>
                         Lisää Resepti
                       </button>
                     </div>
+                    {showInstructions && (
+                      <textarea
+                        value={newRecipeInstructions}
+                        onChange={(e) =>
+                          setNewRecipeInstructions(e.target.value)
+                        }
+                        placeholder="Valmistusohjeet"
+                      />
+                    )}
                   </form>
                 </div>
                 <hr />
