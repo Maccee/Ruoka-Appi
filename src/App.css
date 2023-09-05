@@ -1,12 +1,12 @@
 .App {
   font-family: "Kanit", sans-serif;
   font-size: 62.5%;
-  background-color: #D3D3D3;
+  background-color: #d3d3d3;
 }
 hr {
   margin-top: 1rem;
   margin-bottom: 1rem;
-  color: #001F3F;
+  color: #001f3f;
 }
 .App a {
   text-decoration: none;
@@ -31,7 +31,7 @@ hr {
 }
 .App header {
   color: #eaecee;
-  background-color: #001F3F;
+  background-color: #001f3f;
 }
 .App ul {
   font-size: 1rem;
@@ -44,7 +44,7 @@ hr {
   bottom: 0;
   color: white;
   width: 100%;
-  background-color: #001F3F;
+  background-color: #001f3f;
   border-top: 1px dashed #d3d3d3;
   display: flex;
   align-items: center;
@@ -66,14 +66,13 @@ hr {
   margin-right: 1rem;
 }
 nav ul li a {
-  color: #007FFF;
+  color: #007fff;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
 nav ul li a > span {
- 
   font-size: 0.6rem;
 }
 
@@ -102,8 +101,10 @@ nav ul li a > span {
 }
 
 .listMeals {
+  margin-inline-start: 0.5rem;
+  margin-inline-end: 0.5rem;
   font-size: 1rem;
-  border: 1px solid #001F3F;
+  border: 1px solid #001f3f;
   border-radius: 1rem;
   padding: 0.5rem;
   background-color: white;
@@ -148,7 +149,7 @@ nav ul li a > span {
 .stockForm button {
   flex-basis: 30%;
   border-radius: 0.5rem;
-  background-color: #007FFF;
+  background-color: #007fff;
   padding: 0.5rem;
   height: 2.5rem;
   font-size: 1.1rem;
@@ -199,7 +200,7 @@ nav ul li a > span {
 }
 
 .faIcon {
-  color: #007FFF;
+  color: #007fff;
   font-size: 1.5rem;
   margin-right: 0.5rem;
 }
@@ -215,7 +216,6 @@ nav ul li a > span {
 .recipeForm input {
   /* Assuming the ingredient name input is of type text */
   width: 100%;
-  
 }
 .recipeForm .quantityDiv {
   display: flex;
@@ -227,12 +227,12 @@ nav ul li a > span {
   flex-basis: 30%;
 }
 .recipeForm .quantityDiv select {
-flex-basis: 0;
+  flex-basis: 0;
 }
 .recipeForm button {
   flex-basis: 30%;
   border-radius: 0.5rem;
-  background-color: #007FFF;
+  background-color: #007fff;
   padding: 0.5rem;
   height: 2.5rem;
   font-size: 1.1rem;
@@ -241,10 +241,10 @@ flex-basis: 0;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
 }
 .recipeForm .reseptiNapit {
-  white-space:nowrap;
+  white-space: nowrap;
   display: flex;
   flex-direction: row;
-  gap: 2rem;
+  gap: 1rem;
   justify-content: space-between;
 }
 .recipeForm textarea {
@@ -257,11 +257,13 @@ flex-basis: 0;
 }
 
 .recipeList {
+  margin-inline-start: 0.5rem;
+  margin-inline-end: 0.5rem;
   font-size: 1rem;
   border: 1px solid #001f3f;
   border-radius: 1rem;
   padding: 0.5rem;
-  background-color:white;
+  background-color: white;
   margin-bottom: 1rem;
   box-shadow: 4px 4px 10px -6px black;
   position: relative; /* Added to position the buttons at the bottom */
@@ -293,17 +295,27 @@ flex-basis: 0;
 }
 
 .selectedMealWindow {
-  margin: 0.5rem;
 }
 .selectedMealWindow h2 {
-  font-size: 1rem;
-  letter-spacing: 0.1rem;
-  font-weight: 700;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+.selectedMealWindow p {
+  font-weight: 400;
+  letter-spacing: normal;
+  margin-bottom: 1rem;
 }
 .selectedMealWindow ul li {
   font-size: 1rem;
   letter-spacing: 0.1rem;
 }
 .selectedMealWindow button {
-  margin: 1rem 0 0 0.5rem;
+  border-radius: 0.5rem;
+  background-color: #007fff;
+  padding: 0.5rem;
+  height: 2.5rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.1rem;
+  color: #ffffff;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
 }

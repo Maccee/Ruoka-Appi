@@ -59,7 +59,7 @@ function App() {
   const handleAddItem = (event) => {
     event.preventDefault();
     if (newItemName) {
-      const itemName = capitalizeFirstLetter(newItemName);
+      const itemName = capitalizeFirstLetter(newItemName.trim());
       const newItem = {
         name: itemName,
         quantity: parseFloat(newItemQuantity), // convert string to float
@@ -99,7 +99,7 @@ function App() {
     ) {
       const recipeName = capitalizeFirstLetter(newRecipeName);
       const ingredients = newRecipeIngredients.map((ing) => ({
-        name: capitalizeFirstLetter(ing.name),
+        name: capitalizeFirstLetter(ing.name.trim()),
         quantity: ing.quantity,
         unit: ing.unit,
       }));
@@ -250,6 +250,7 @@ function App() {
                           {selectedRecipe &&
                             recipe.name === selectedRecipe.name && (
                               <div className="selectedMealWindow">
+                                <hr />
                                 <h2>Valmistusohjeet</h2>
                                 <p>{selectedRecipe.instructions}</p>
                                 <button
