@@ -21,16 +21,13 @@ import "./App.css";
 function App() {
   library.add(fas, faR, faPenToSquare, faTrashCan);
 
-  const [recipes, setRecipes] = useState([]);
-  const [fridgeItems, setFridgeItems] = useState([]);
+  const [recipes, setRecipes] = useState([]); // MealList, Recipes
+  const [fridgeItems, setFridgeItems] = useState([]); // MealLisst
 
   const [newItemName, setNewItemName] = useState("");
   const [newItemQuantity, setNewItemQuantity] = useState("");
-  const [newItemUnit, setNewItemUnit] = useState("kpl"); // default unit
+  const [newItemUnit, setNewItemUnit] = useState("kpl");
 
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
-
-  // Load fridge items and recipes from local storage on app start
   useEffect(() => {
     const savedItems = localStorage.getItem("fridgeItems");
     const savedRecipes = localStorage.getItem("recipes");
@@ -49,6 +46,9 @@ function App() {
 
   const handleAddItem = (event) => {
     event.preventDefault();
+    if (!newItemQuantity || newItemQuantity <= 0) {
+      return;
+    }
     if (newItemName) {
       const itemName = capitalizeFirstLetter(newItemName.trim());
       const newItem = {
@@ -78,50 +78,7 @@ function App() {
     );
   };
 
-  const possibleMeals = recipes.filter((recipe) =>
-    recipe.ingredients.every((ingredient) => {
-      const fridgeItem = fridgeItems.find(
-        (item) => item.name === ingredient.name
-      );
-      // If ingredient is not in fridge, or the quantity in fridge is less than needed, return false
-      if (!fridgeItem || fridgeItem.quantity < ingredient.quantity) {
-        return false;
-      }
-      // Otherwise, this ingredient is okay
-      return true;
-    })
-  );
-
-  function handleTehtyButtonClick(recipe) {
-    // Create a copy of the fridgeItems to update
-    let updatedFridgeItems = [...fridgeItems];
-
-    // For each ingredient in the recipe
-    recipe.ingredients.forEach((recipeIngredient) => {
-      // Find this ingredient in the stock
-      const fridgeItem = updatedFridgeItems.find(
-        (ing) => ing.name === recipeIngredient.name
-      );
-
-      if (fridgeItem) {
-        // Subtract the required amount from the fridge item
-        fridgeItem.quantity -= recipeIngredient.quantity;
-
-        // If the quantity of the fridge item reaches 0, remove it from the list
-        if (fridgeItem.quantity <= 0) {
-          updatedFridgeItems = updatedFridgeItems.filter(
-            (item) => item.name !== fridgeItem.name
-          );
-        }
-      }
-    });
-
-    // Update the fridgeItems state with the new values
-    setFridgeItems(updatedFridgeItems);
-
-    // Deselect the current recipe
-    setSelectedRecipe(null);
-  }
+  // Update the fridgeItems state with the new values
 
   return (
     <Router>
@@ -135,10 +92,9 @@ function App() {
             path="/"
             element={
               <MealList
-                possibleMeals={possibleMeals}
-                selectedRecipe={selectedRecipe}
-                setSelectedRecipe={setSelectedRecipe}
-                handleTehtyButtonClick={handleTehtyButtonClick}
+                setFridgeItems={setFridgeItems}
+                recipes={recipes}
+                fridgeItems={fridgeItems}
               />
             }
           />
