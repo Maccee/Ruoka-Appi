@@ -65,9 +65,22 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
       <hr />
       <ul>
         {possibleMeals.length === 0 && !selectedRecipe ? (
-          <p className="defaultMessage">
-            Ei mitään aineksia tehdä mitään! Käy kaupassa tai lisää reseptejä!
-          </p>
+          <>
+            <p className="defaultMessage">
+              Ei mitään aineksia tehdä mitään! Käy kaupassa tai lisää reseptejä!
+            </p>
+  
+            {/* Render UnAvailableMeals specifically when there's no possibleMeals */}
+            {recipes
+              .filter((recipe) => !isRecipePossible(recipe, fridgeItems))
+              .map((recipe, idx) => (
+                <UnAvailableMeals
+                  key={idx}
+                  recipe={recipe}
+                  fridgeItems={fridgeItems}
+                />
+              ))}
+          </>
         ) : (
           <>
             {possibleMeals.map((recipe, idx) => (
@@ -93,7 +106,7 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
                     </li>
                   ))}
                 </ul>
-
+  
                 <div
                   className={
                     selectedRecipe && recipe.name === selectedRecipe.name
@@ -112,7 +125,7 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
                 </div>
               </li>
             ))}
-
+  
             {/* Render UnAvailableMeals after the possibleMeals */}
             {recipes
               .filter((recipe) => !isRecipePossible(recipe, fridgeItems))
@@ -128,6 +141,7 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
       </ul>
     </>
   );
+  
 };
 
 export default MealList;
