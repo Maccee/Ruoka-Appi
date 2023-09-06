@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import React, { useRef } from "react";
 
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import MealList from "./components/MealList";
@@ -22,7 +21,7 @@ function App() {
   library.add(fas, faR, faPenToSquare, faTrashCan);
 
   const [recipes, setRecipes] = useState([]); // MealList, Recipes
-  const [fridgeItems, setFridgeItems] = useState([]); // MealLisst
+  const [fridgeItems, setFridgeItems] = useState([]); // MealList
 
   useEffect(() => {
     const savedItems = localStorage.getItem("fridgeItems");
