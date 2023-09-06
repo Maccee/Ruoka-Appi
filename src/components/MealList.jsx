@@ -4,17 +4,26 @@ import { useState } from "react";
 const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
 
-  const possibleMeals = recipes.filter((recipe) =>
-    recipe.ingredients.every((ingredient) => {
+  const possibleMeals = recipes.filter((recipe) => {
+    return recipe.ingredients.every((ingredient) => {
       const fridgeItem = fridgeItems.find(
         (item) => item.name === ingredient.name
       );
-      if (!fridgeItem || fridgeItem.quantity < ingredient.quantity) {
+      console.log("Ingredient:", ingredient);
+      console.log("Matching fridge item:", fridgeItem);
+
+      if (!fridgeItem) {
+      } else if (fridgeItem.quantity < ingredient.quantity) {
+      }
+      if (
+        !fridgeItem ||
+        Number(fridgeItem.quantity) < Number(ingredient.quantity)
+      ) {
         return false;
       }
       return true;
-    })
-  );
+    });
+  });
 
   function handleTehtyButtonClick(recipe) {
     let updatedFridgeItems = [...fridgeItems];

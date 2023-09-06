@@ -77,7 +77,20 @@ nav ul li a {
   text-align: center;
 }
 nav ul li a > span {
-  font-size: 0.6rem;
+  font-size: 0.8rem;
+}
+.active-link span {
+  display: none;
+}
+
+.nav-link .icon svg {
+  transition: transform 0.3s ease;
+  transform: scale(1);
+}
+
+.active-link .icon svg {
+  transform: scale(1.6) translateY(-1rem);
+  filter: url(#svg-shadow);
 }
 
 .App input {
