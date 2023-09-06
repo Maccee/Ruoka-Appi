@@ -77,7 +77,20 @@ nav ul li a {
   text-align: center;
 }
 nav ul li a > span {
-  font-size: 0.6rem;
+  font-size: 0.8rem;
+}
+.active-link span {
+  display: none;
+}
+
+.nav-link .icon svg {
+  transition: transform 0.3s ease;
+  transform: scale(1);
+}
+
+.active-link .icon svg {
+  transform: scale(1.6) translateY(-1rem);
+  filter: url(#svg-shadow);
 }
 
 .App input {
@@ -153,7 +166,7 @@ nav ul li a > span {
 .stockForm button {
   flex-basis: 30%;
   border-radius: 0.5rem;
-  background-color: #007fff;
+  background-color: #0066cc;
   padding: 0.5rem;
   height: 2.5rem;
   font-size: 1.1rem;
@@ -204,7 +217,7 @@ nav ul li a > span {
 }
 
 .faIcon {
-  color: #007fff;
+  color: #0066cc;
   font-size: 1.5rem;
   margin-right: 0.5rem;
 }
@@ -236,7 +249,7 @@ nav ul li a > span {
 .recipeForm button {
   flex-basis: 30%;
   border-radius: 0.5rem;
-  background-color: #007fff;
+  background-color: #0066cc;
   padding: 0.5rem;
   height: 2.5rem;
   font-size: 1.1rem;
@@ -315,7 +328,7 @@ nav ul li a > span {
 }
 .selectedMealWindow button {
   border-radius: 0.5rem;
-  background-color: #007fff;
+  background-color: #0066cc;
   padding: 0.5rem;
   height: 2.5rem;
   font-size: 1.1rem;

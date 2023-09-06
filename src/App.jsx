@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
-import React, { useRef } from "react";
 
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MealList from "./components/MealList";
 import Stock from "./components/Stock";
 import Recipes from "./components/Recipes";
+import Navbar from "./components/Navbar";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { fab } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   fas,
   faPenToSquare,
@@ -22,7 +20,7 @@ function App() {
   library.add(fas, faR, faPenToSquare, faTrashCan);
 
   const [recipes, setRecipes] = useState([]); // MealList, Recipes
-  const [fridgeItems, setFridgeItems] = useState([]); // MealLisst
+  const [fridgeItems, setFridgeItems] = useState([]); // MealList
 
   useEffect(() => {
     const savedItems = localStorage.getItem("fridgeItems");
@@ -35,13 +33,11 @@ function App() {
     localStorage.setItem("fridgeItems", JSON.stringify(fridgeItems));
   }, [fridgeItems]);
 
-  // Update the fridgeItems state with the new values
-
   return (
     <Router>
       <div className="App">
         <header>
-          <h1>Ruokaappi!</h1>
+          <h1>R</h1>
         </header>
 
         <Routes>
@@ -70,28 +66,7 @@ function App() {
           />
         </Routes>
 
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">
-                <FontAwesomeIcon icon="fa-solid fa-utensils" />
-                <span>Ruuat</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/stock">
-                <FontAwesomeIcon icon="fa-solid fa-cubes-stacked" />
-                <span>Ainekset</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/recipes">
-                <FontAwesomeIcon icon="fa-solid fa-book" />
-                <span>Reseptit</span>
-              </Link>
-            </li>
-          </ul>
-        </nav>
+        <Navbar />
       </div>
     </Router>
   );
