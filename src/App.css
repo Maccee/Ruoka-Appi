@@ -141,6 +141,10 @@ nav ul li a > span {
   font-size: 0.8rem;
   letter-spacing: 0.1rem;
 }
+.greyedOut {
+  opacity: 0.5;
+  pointer-events: none;
+}
 .ingredientItem {
   display: flex;
   justify-content: space-between;
@@ -231,7 +235,6 @@ nav ul li a > span {
 }
 
 .recipeForm input {
-  /* Assuming the ingredient name input is of type text */
   width: 100%;
 }
 .recipeForm .quantityDiv {
@@ -311,8 +314,6 @@ nav ul li a > span {
   /* Positioning 10px from the right of .recipeList */
 }
 
-.selectedMealWindow {
-}
 .selectedMealWindow h2 {
   padding: 0;
   margin-bottom: 1rem;
