@@ -142,9 +142,22 @@ nav ul li a > span {
   letter-spacing: 0.1rem;
 }
 .greyedOut {
-  opacity: 0.5;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: rgba(0, 0, 0, 0.5);
   pointer-events: none;
 }
+.greyedOut button {
+  pointer-events: auto;
+  border-radius: 0.5rem;
+  background-color: #0066cc;
+  padding: 0.5rem;
+  height: 2.5rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.1rem;
+  color: #ffffff;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+}
+
 .ingredientItem {
   display: flex;
   justify-content: space-between;
