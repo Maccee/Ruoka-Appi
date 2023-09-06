@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const OstosLista = () => {
+const OstosLista = ({ fridgeItems, setFridgeItems }) => {
   const [shoppingList, setShoppingList] = useState([]);
   const [clickedItems, setClickedItems] = useState({});
 
@@ -16,21 +16,47 @@ const OstosLista = () => {
   };
 
   const clearStrikethroughItems = () => {
+    let updatedFridgeItems = [...fridgeItems]; // make a copy of the current fridgeItems to prevent direct mutations
+    
+    // Iterate over each shopping list item
+    shoppingList.forEach((item, index) => {
+      if (clickedItems[index]) {  // Check if the item was clicked/strikethrough
+        // Check if the item is already in updatedFridgeItems
+        const existingItem = updatedFridgeItems.find(
+          (fridgeItem) => fridgeItem.name === item.name && fridgeItem.unit === item.unit
+        );
+  
+        if (existingItem) {
+          // If item exists in fridge, increase its quantity
+          existingItem.quantity = Number(existingItem.quantity) + Number(item.quantity);
+        } else {
+          // If item doesn't exist in fridge, add it
+          updatedFridgeItems.push(item);
+        }
+      }
+    });
+  
+    // Update the state directly
+    setFridgeItems(updatedFridgeItems);
+  
     const updatedShoppingList = shoppingList.filter(
       (_, index) => !clickedItems[index]
     );
-
-    // Update local storage
+  
+    // Update local storage for shoppingList
     localStorage.setItem("shoppingList", JSON.stringify(updatedShoppingList));
-
+  
     // Update component state
     setShoppingList(updatedShoppingList);
     setClickedItems({});
   };
+  
+  
 
   return (
     <div className="shoppingList">
       <h2>OstosLista</h2>
+      <hr />
       {shoppingList.length > 0 ? (
         <>
           <ul>

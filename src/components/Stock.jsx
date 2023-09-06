@@ -7,6 +7,7 @@ const Stock = ({ fridgeItems, setFridgeItems }) => {
   const [newItemName, setNewItemName] = useState("");
   const [newItemQuantity, setNewItemQuantity] = useState("");
   const [newItemUnit, setNewItemUnit] = useState("kpl");
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -57,12 +58,13 @@ const Stock = ({ fridgeItems, setFridgeItems }) => {
       };
       setFridgeItems([newItem, ...fridgeItems]);
     }
-
+    setIsFormVisible(false);
     setNewItemName("");
     setNewItemQuantity("");
   };
 
   const handleModifyItem = (itemName) => {
+    setIsFormVisible(true);
     const itemToModify = fridgeItems.find((item) => item.name === itemName);
     setNewItemName(itemToModify.name);
     setNewItemQuantity(itemToModify.quantity.toString());
@@ -80,7 +82,19 @@ const Stock = ({ fridgeItems, setFridgeItems }) => {
 
   return (
     <>
-      <h2>Ainekset ja Tarvikket</h2>
+      <div className="stockHeader">
+        <h2>Ainekset ja Tarvikket</h2>
+        <button
+          className="stockToggle"
+          onClick={() => setIsFormVisible(!isFormVisible)}
+        >
+          {isFormVisible ? "Sulje" : "Lisää"}
+        </button>
+      </div>
+      <div className={
+          isFormVisible ? "stockFormContainer visible" : "stockFormContainer"
+        }
+      >
       <form className="stockForm" onSubmit={handleAddItem} noValidate>
         <input
           type="text"
@@ -105,9 +119,10 @@ const Stock = ({ fridgeItems, setFridgeItems }) => {
             <option value="g">g</option>
             <option value="litraa">litraa</option>
           </select>
-          <button type="submit">Lisää</button>
+          <button type="submit">Valmis</button>
         </div>
       </form>
+      </div>
       <hr />
       <ul>
         {fridgeItems.map((item, idx) => (

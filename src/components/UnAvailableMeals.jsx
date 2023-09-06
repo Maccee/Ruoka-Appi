@@ -59,7 +59,7 @@ const UnAvailableMeals = ({ recipe, fridgeItems }) => {
       </ul>
       {missingIngredients.length > 0 && (
         <>
-          <p>Missing:</p>
+          <p>Puuttuvat ainekset:</p>
           <ul>
             {missingIngredients.map((ing, ingIdx) => (
               <li key={ingIdx} className="missingIngredientItem">

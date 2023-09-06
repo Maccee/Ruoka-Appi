@@ -13,6 +13,7 @@ const Recipes = ({ recipes, setRecipes }) => {
   ]);
   const inputRefs = useRef([]);
   const [ingredientCount, setIngredientCount] = useState(0);
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("recipes", JSON.stringify(recipes));
@@ -48,6 +49,7 @@ const Recipes = ({ recipes, setRecipes }) => {
         ingredients: ingredients,
         instructions: newRecipeInstructions, // Added this line
       };
+      setIsFormVisible(false);
       setRecipes([...recipes, newRecipe]);
       setNewRecipeName("");
       setNewRecipeInstructions(""); // Reset the instructions field
@@ -76,6 +78,7 @@ const Recipes = ({ recipes, setRecipes }) => {
   };
 
   const handleModifyRecipe = (recipeName) => {
+    setIsFormVisible(true);
     const recipeToModify = recipes.find((recipe) => recipe.name === recipeName);
     setNewRecipeName(recipeToModify.name);
     setNewRecipeIngredients(recipeToModify.ingredients);
@@ -84,8 +87,17 @@ const Recipes = ({ recipes, setRecipes }) => {
   };
   return (
     <>
-      <h2>Reseptit - Lisää</h2>
-      <div>
+      <div className="recipesHeader">
+        <h2>Reseptit</h2>
+        <button className="recipesToggle" onClick={() => setIsFormVisible(!isFormVisible)}>
+          {isFormVisible ? "Sulje" : "Uusi Resepti"}
+        </button>
+      </div>
+      <div
+        className={
+          isFormVisible ? "recipeFormContainer visible" : "recipeFormContainer"
+        }
+      >
         <form className="recipeForm" onSubmit={handleAddRecipe}>
           <input
             value={newRecipeName}
@@ -151,7 +163,7 @@ const Recipes = ({ recipes, setRecipes }) => {
               Ohjeet
             </button>
             <button type="button" onClick={handleAddRecipe}>
-              Lisää Resepti
+              Valmis
             </button>
           </div>
           {showInstructions && (

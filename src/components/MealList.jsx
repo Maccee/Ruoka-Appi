@@ -59,7 +59,9 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
 
   return (
     <>
-      <h2>Mahdolliset ruuat</h2>
+      <div className="mealListHeader">
+        <h2>Mahdolliset ruuat</h2>
+      </div>
       <hr />
       <ul>
         {possibleMeals.length === 0 && !selectedRecipe ? (
@@ -92,18 +94,22 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
                   ))}
                 </ul>
 
-                {selectedRecipe && recipe.name === selectedRecipe.name && (
-                  <div className="selectedMealWindow">
-                    <hr />
-                    <h2>Valmistusohjeet</h2>
-                    <p>{selectedRecipe.instructions}</p>
-                    <button
-                      onClick={() => handleTehtyButtonClick(selectedRecipe)}
-                    >
-                      Valmistin tämän ruuan
-                    </button>
-                  </div>
-                )}
+                <div
+                  className={
+                    selectedRecipe && recipe.name === selectedRecipe.name
+                      ? "selectedMealWindow visible"
+                      : "selectedMealWindow"
+                  }
+                >
+                  <hr />
+                  <h2>Valmistusohjeet</h2>
+                  <p>{selectedRecipe ? selectedRecipe.instructions : ""}</p>
+                  <button
+                    onClick={() => handleTehtyButtonClick(selectedRecipe)}
+                  >
+                    Valmistin tämän ruuan
+                  </button>
+                </div>
               </li>
             ))}
 

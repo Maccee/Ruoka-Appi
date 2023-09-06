@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+import { ReactComponent as Logo } from "./assets/logo.svg";
+
+
+
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MealList from "./components/MealList";
@@ -38,7 +42,7 @@ function App() {
     <Router>
       <div className="App">
         <header>
-          <h1>R</h1>
+          <Logo className="logo" />
         </header>
 
         <Routes>
@@ -65,7 +69,7 @@ function App() {
             path="/recipes"
             element={<Recipes recipes={recipes} setRecipes={setRecipes} />}
           />
-          <Route path="/ostoslista" element={<OstosLista />} />
+          <Route path="/ostoslista" element={<OstosLista fridgeItems={fridgeItems} setFridgeItems={setFridgeItems} />} />
         </Routes>
 
         <Navbar />
