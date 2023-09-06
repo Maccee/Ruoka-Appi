@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import UnAvailableMeals from "./UnAvailableMeals";
 
 const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
@@ -45,6 +46,16 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
     setSelectedRecipe(null);
     setFridgeItems(updatedFridgeItems);
   }
+  const isRecipePossible = (recipe, fridgeItems) => {
+    return recipe.ingredients.every((ingredient) => {
+      const fridgeItem = fridgeItems.find(
+        (item) => item.name === ingredient.name
+      );
+      return (
+        fridgeItem && Number(fridgeItem.quantity) >= Number(ingredient.quantity)
+      );
+    });
+  };
 
   return (
     <>
@@ -56,8 +67,8 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
             Ei mitään aineksia tehdä mitään! Käy kaupassa tai lisää reseptejä!
           </p>
         ) : (
-          possibleMeals.map((recipe, idx) => {
-            return (
+          <>
+            {possibleMeals.map((recipe, idx) => (
               <li
                 className="listMeals"
                 key={idx}
@@ -94,8 +105,19 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
                   </div>
                 )}
               </li>
-            );
-          })
+            ))}
+
+            {/* Render UnAvailableMeals after the possibleMeals */}
+            {recipes
+              .filter((recipe) => !isRecipePossible(recipe, fridgeItems))
+              .map((recipe, idx) => (
+                <UnAvailableMeals
+                  key={idx}
+                  recipe={recipe}
+                  fridgeItems={fridgeItems}
+                />
+              ))}
+          </>
         )}
       </ul>
     </>

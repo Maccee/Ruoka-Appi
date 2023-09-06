@@ -15,6 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./App.css";
+import OstosLista from "./components/OstosLista";
 
 function App() {
   library.add(fas, faR, faPenToSquare, faTrashCan);
@@ -64,6 +65,7 @@ function App() {
             path="/recipes"
             element={<Recipes recipes={recipes} setRecipes={setRecipes} />}
           />
+          <Route path="/ostoslista" element={<OstosLista />} />
         </Routes>
 
         <Navbar />
