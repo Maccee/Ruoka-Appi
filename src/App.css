@@ -350,3 +350,36 @@ nav ul li a > span {
   color: #ffffff;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
 }
+
+.shoppingList ul {
+  margin-inline-start: 0.5rem;
+  margin-inline-end: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #001f3f;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  background-color: white;
+  margin-bottom: 1rem;
+  box-shadow: 4px 4px 10px -6px black;
+}
+.shoppingList li {
+  margin-block-end: 0.3rem;
+}
+.strikethrough {
+  text-decoration: line-through;
+}
+.tyhjaLista {
+  margin-inline-start: 0.5rem;
+  font-size: 1rem;
+}
+.shoppingList button {
+  margin-inline-start: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: #0066cc;
+  padding: 0.5rem;
+  height: 2.5rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.1rem;
+  color: #ffffff;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+}

@@ -14,6 +14,9 @@ function Navbar() {
         <NavigationItem to="/recipes" icon="fa-solid fa-book">
           Reseptit
         </NavigationItem>
+        <NavigationItem to="/ostoslista" icon="fa-solid fa-list">
+          Ostoslista
+        </NavigationItem>
       </ul>
     </nav>
   );
