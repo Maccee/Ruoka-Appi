@@ -1,8 +1,9 @@
 .App {
   font-family: "Kanit", sans-serif;
   font-size: 62.5%;
-  background-color: #d3d3d3;
-  height: 95vh;
+  
+  min-height: 100vh;
+  margin-bottom: 7rem;
 }
 .App .logo {
   height: 3rem;
