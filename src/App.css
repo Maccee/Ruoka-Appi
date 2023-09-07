@@ -1,7 +1,6 @@
 .App {
   font-family: "Kanit", sans-serif;
   font-size: 62.5%;
-  
   min-height: 100vh;
   margin-bottom: 7rem;
 }
@@ -39,8 +38,18 @@ hr {
   padding: 0.5rem;
 }
 .App header {
-  color: #eaecee;
+  color: #0553a2;
   background-color: #001f3f;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.syncIcon {
+  font-size: 2rem;
+  margin-inline-end: 1rem;
 }
 .App ul {
   font-size: 1rem;
@@ -140,7 +149,7 @@ nav ul li a > span {
   margin-inline-end: 0.5rem;
   font-size: 1rem;
   border: 1px solid #001f3f;
-  border-radius: 1rem;
+  border-radius: 0.2rem;
   padding: 0.5rem;
   background-color: white;
   margin-bottom: 1rem;
@@ -167,16 +176,8 @@ nav ul li a > span {
 }
 .greyedOut button {
   margin-block-start: 0.5rem;
-  margin-block-end: 0.5rem;
   pointer-events: auto;
-  border-radius: 0.5rem;
-  background-color: #0066cc;
-  padding: 0.5rem;
-  height: 2.5rem;
-  font-size: 1.1rem;
-  letter-spacing: 0.1rem;
-  color: #ffffff;
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+  color: #0066cc;
 }
 
 .ingredientItem {
@@ -200,7 +201,6 @@ nav ul li a > span {
   justify-content: space-between;
   margin-inline-end: 0.5rem;
   margin-block-start: 0.5rem;
-  
 }
 .stockHeader .stockToggle {
   border-radius: 0.5rem;
@@ -215,7 +215,6 @@ nav ul li a > span {
 
 .stockForm {
   margin: 1rem;
-
 }
 .stockForm div {
   display: flex;
@@ -224,7 +223,6 @@ nav ul li a > span {
   flex-shrink: 0;
   flex-wrap: nowrap;
   gap: 2rem;
-  
 }
 .stockForm input[type="number"] {
   margin: 0;
@@ -257,7 +255,7 @@ nav ul li a > span {
   margin-inline-end: 0.5rem;
   font-size: 1rem;
   border: 1px solid #001f3f;
-  border-radius: 1rem;
+  border-radius: 0.2rem;
   padding: 0.5rem;
   background-color: white;
   margin-bottom: 1rem;
@@ -269,8 +267,6 @@ nav ul li a > span {
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  
-  
 }
 
 .itemName {
@@ -304,14 +300,14 @@ nav ul li a > span {
 }
 
 .recipeFormContainer {
-  transition: opacity 0.3s ease, max-height 0.3s ease; 
+  transition: opacity 0.3s ease, max-height 0.3s ease;
   opacity: 0;
-  max-height: 0; 
-  overflow: hidden; 
+  max-height: 0;
+  overflow: hidden;
 }
 .recipeFormContainer.visible {
   opacity: 1;
-  max-height: 1000px; 
+  max-height: 1000px;
 }
 .recipesHeader {
   display: flex;
@@ -332,7 +328,6 @@ nav ul li a > span {
 }
 .recipeForm {
   margin: 1rem;
-  
 }
 .recipeForm div {
   display: flex;
@@ -385,7 +380,7 @@ nav ul li a > span {
   margin-inline-end: 0.5rem;
   font-size: 1rem;
   border: 1px solid #001f3f;
-  border-radius: 1rem;
+  border-radius: 0.2rem;
   padding: 0.5rem;
   background-color: white;
   margin-bottom: 1rem;

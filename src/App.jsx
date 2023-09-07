@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { ReactComponent as Logo } from "./assets/logo.svg";
-
-
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MealList from "./components/MealList";
@@ -16,13 +14,14 @@ import {
   faPenToSquare,
   faTrashCan,
   faR,
+  faList,
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./App.css";
 import OstosLista from "./components/OstosLista";
 
 function App() {
-  library.add(fas, faR, faPenToSquare, faTrashCan);
+  library.add(fas, faR, faPenToSquare, faTrashCan, faList);
 
   const [recipes, setRecipes] = useState([]); // MealList, Recipes
   const [fridgeItems, setFridgeItems] = useState([]); // MealList
@@ -43,6 +42,11 @@ function App() {
       <div className="App">
         <header>
           <Logo className="logo" />
+          <FontAwesomeIcon
+            className="syncIcon"
+            icon="fa-solid fa-rotate"
+            spin
+          />
         </header>
 
         <Routes>
@@ -69,7 +73,15 @@ function App() {
             path="/recipes"
             element={<Recipes recipes={recipes} setRecipes={setRecipes} />}
           />
-          <Route path="/ostoslista" element={<OstosLista fridgeItems={fridgeItems} setFridgeItems={setFridgeItems} />} />
+          <Route
+            path="/ostoslista"
+            element={
+              <OstosLista
+                fridgeItems={fridgeItems}
+                setFridgeItems={setFridgeItems}
+              />
+            }
+          />
         </Routes>
 
         <Navbar />

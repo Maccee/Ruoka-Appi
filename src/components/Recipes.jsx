@@ -89,7 +89,10 @@ const Recipes = ({ recipes, setRecipes }) => {
     <>
       <div className="recipesHeader">
         <h2>Reseptit</h2>
-        <button className="recipesToggle" onClick={() => setIsFormVisible(!isFormVisible)}>
+        <button
+          className="recipesToggle"
+          onClick={() => setIsFormVisible(!isFormVisible)}
+        >
           {isFormVisible ? "Sulje" : "Uusi Resepti"}
         </button>
       </div>
@@ -179,7 +182,8 @@ const Recipes = ({ recipes, setRecipes }) => {
       <ul>
         {recipes.map((recipe, idx) => (
           <li className="recipeList" key={idx}>
-            <p>{recipe.name}:</p>
+            <p>Resepti: {recipe.name}</p>
+            <br />
             <ul>
               {recipe.ingredients.map((ing, ingIdx) => (
                 <li key={ingIdx} className="ingredientItem">

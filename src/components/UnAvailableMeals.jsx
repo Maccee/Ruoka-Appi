@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const UnAvailableMeals = ({ recipe, fridgeItems }) => {
-  // Get missing ingredients
+  const [isInShoppingList, setIsInShoppingList] = useState(false);
+
   const missingIngredients = recipe.ingredients.filter((ingredient) => {
     const fridgeItem = fridgeItems.find(
       (item) => item.name === ingredient.name
@@ -10,38 +12,53 @@ const UnAvailableMeals = ({ recipe, fridgeItems }) => {
       !fridgeItem || Number(fridgeItem.quantity) < Number(ingredient.quantity)
     );
   });
-  const handleAddToShoppingList = () => {
-    // Retrieve the current shopping list from local storage
-    let currentShoppingList =
-      JSON.parse(localStorage.getItem("shoppingList")) || [];
 
-    // For each missing ingredient:
-    missingIngredients.forEach((missingItem) => {
-      // Check if the ingredient already exists in the shopping list
+  useEffect(() => {
+    const currentShoppingList =
+      JSON.parse(localStorage.getItem("shoppingList")) || [];
+    const missingInShoppingList = missingIngredients.every((missingItem) => {
       const existingItem = currentShoppingList.find(
         (item) => item.name === missingItem.name
       );
+      return (
+        existingItem &&
+        Number(existingItem.quantity) >= Number(missingItem.quantity)
+      );
+    });
+    setIsInShoppingList(missingInShoppingList);
+  }, [missingIngredients]);
 
+  const handleAddToShoppingList = () => {
+    let currentShoppingList =
+      JSON.parse(localStorage.getItem("shoppingList")) || [];
+    missingIngredients.forEach((missingItem) => {
+      const existingItem = currentShoppingList.find(
+        (item) => item.name === missingItem.name
+      );
       if (existingItem) {
-        // Ensure the quantities are numbers, then add them together
         existingItem.quantity =
           Number(existingItem.quantity) + Number(missingItem.quantity);
       } else {
-        // If it doesn't, add the missing ingredient to the shopping list
         currentShoppingList.push(missingItem);
       }
     });
-
-    // Store the updated shopping list in local storage
     localStorage.setItem("shoppingList", JSON.stringify(currentShoppingList));
-
-    // Log the added or updated items
     console.log(
       "Items added or updated in the shopping list:",
       missingIngredients
     );
 
-    alert("Items added to the shopping list!");
+    // Check if all missing ingredients are in the shopping list now
+    const missingInShoppingList = missingIngredients.every((missingItem) => {
+      const existingItem = currentShoppingList.find(
+        (item) => item.name === missingItem.name
+      );
+      return (
+        existingItem &&
+        Number(existingItem.quantity) >= Number(missingItem.quantity)
+      );
+    });
+    setIsInShoppingList(missingInShoppingList);
   };
 
   return (
@@ -70,7 +87,12 @@ const UnAvailableMeals = ({ recipe, fridgeItems }) => {
               </li>
             ))}
           </ul>
-          <button onClick={handleAddToShoppingList}>Ostoslistalle</button>
+          <button
+            onClick={handleAddToShoppingList}
+            style={{ color: isInShoppingList ? "gray" : "#0066cc" }}
+          >
+            <FontAwesomeIcon className="syncIcon" icon="fa-solid fa-list" />
+          </button>
         </>
       )}
     </li>
