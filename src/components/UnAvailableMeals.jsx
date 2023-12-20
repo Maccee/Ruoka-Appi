@@ -89,7 +89,7 @@ const UnAvailableMeals = ({ recipe, fridgeItems }) => {
           </ul>
           <button
             onClick={handleAddToShoppingList}
-            style={{ color: isInShoppingList ? "gray" : "#0066cc" }}
+            style={{ color: isInShoppingList ? "gray" : "goldenrod" }}
           >
             <FontAwesomeIcon className="syncIcon" icon="fa-solid fa-list" />
           </button>
