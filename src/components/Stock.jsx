@@ -7,6 +7,8 @@ const Stock = ({ fridgeItems, setFridgeItems }) => {
   const [newItemName, setNewItemName] = useState("");
   const [newItemQuantity, setNewItemQuantity] = useState("");
   const [newItemUnit, setNewItemUnit] = useState("kpl");
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -18,58 +20,49 @@ const Stock = ({ fridgeItems, setFridgeItems }) => {
     if (isNaN(validQuantity) || validQuantity <= 0) {
       return;
     }
-
+  
     const itemName = capitalizeFirstLetter(newItemName.trim());
-
-    const existingItem = fridgeItems.find((item) => item.name === itemName);
-
-    if (existingItem) {
-      if (existingItem.unit === newItemUnit) {
-        existingItem.quantity = (
-          parseFloat(existingItem.quantity) + validQuantity
-        ).toString();
+  
+    setFridgeItems(prevItems => {
+      if (editingItem) {
+        // Editing an existing item
+        return prevItems.map(item => {
+          if (item.name === editingItem.name) {
+            return {
+              ...item,
+              quantity: validQuantity.toString(),
+              unit: newItemUnit,
+            };
+          }
+          return item;
+        });
       } else {
-        // Indicate mismatched item with "!"
-        existingItem.name = `! ${existingItem.name}`;
-
-        // Sum the quantities and default to "kpl" unit
-        existingItem.quantity = (
-          parseFloat(existingItem.quantity) + validQuantity
-        ).toString();
-        existingItem.unit = "kpl";
-        alert(
-          "Item found in fridge, please edit the item and check correct quantity and unit"
-        );
-
-        // Move the item to the top of the list
-        const index = fridgeItems.indexOf(existingItem);
-        if (index > -1) {
-          fridgeItems.splice(index, 1);
-        }
-        fridgeItems.unshift(existingItem);
+        // Adding a new item
+        const newItem = {
+          name: itemName,
+          quantity: validQuantity.toString(),
+          unit: newItemUnit,
+        };
+        return [newItem, ...prevItems];
       }
-      setFridgeItems([...fridgeItems]); // Refresh the state
-    } else {
-      const newItem = {
-        name: itemName,
-        quantity: validQuantity.toString(),
-        unit: newItemUnit,
-      };
-      setFridgeItems([newItem, ...fridgeItems]);
-    }
-
+    });
+  
+    // Reset form and editing state
+    setIsFormVisible(false);
     setNewItemName("");
     setNewItemQuantity("");
+    setEditingItem(null); // Reset the editing item
   };
+  
+  
 
   const handleModifyItem = (itemName) => {
+    setIsFormVisible(true);
     const itemToModify = fridgeItems.find((item) => item.name === itemName);
+    setEditingItem(itemToModify); // Set the item being edited
     setNewItemName(itemToModify.name);
     setNewItemQuantity(itemToModify.quantity.toString());
     setNewItemUnit(itemToModify.unit);
-    setFridgeItems((prevItems) =>
-      prevItems.filter((item) => item.name !== itemName)
-    );
   };
 
   const handleRemoveItem = (itemName) => {
@@ -80,7 +73,19 @@ const Stock = ({ fridgeItems, setFridgeItems }) => {
 
   return (
     <>
-      <h2>Ainekset ja Tarvikket</h2>
+      <div className="stockHeader">
+        <h2>Ainekset ja Tarvikket</h2>
+        <button
+          className="stockToggle"
+          onClick={() => setIsFormVisible(!isFormVisible)}
+        >
+          {isFormVisible ? "Sulje" : "Lisää"}
+        </button>
+      </div>
+      <div className={
+          isFormVisible ? "stockFormContainer visible" : "stockFormContainer"
+        }
+      >
       <form className="stockForm" onSubmit={handleAddItem} noValidate>
         <input
           type="text"
@@ -105,9 +110,10 @@ const Stock = ({ fridgeItems, setFridgeItems }) => {
             <option value="g">g</option>
             <option value="litraa">litraa</option>
           </select>
-          <button type="submit">Lisää</button>
+          <button type="submit">Valmis</button>
         </div>
       </form>
+      </div>
       <hr />
       <ul>
         {fridgeItems.map((item, idx) => (

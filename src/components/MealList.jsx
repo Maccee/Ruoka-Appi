@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import UnAvailableMeals from "./UnAvailableMeals";
 
 const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
@@ -45,19 +46,44 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
     setSelectedRecipe(null);
     setFridgeItems(updatedFridgeItems);
   }
+  const isRecipePossible = (recipe, fridgeItems) => {
+    return recipe.ingredients.every((ingredient) => {
+      const fridgeItem = fridgeItems.find(
+        (item) => item.name === ingredient.name
+      );
+      return (
+        fridgeItem && Number(fridgeItem.quantity) >= Number(ingredient.quantity)
+      );
+    });
+  };
 
   return (
     <>
-      <h2>Mahdolliset ruuat</h2>
+      <div className="mealListHeader">
+        <h2>Mahdolliset ruuat</h2>
+      </div>
       <hr />
       <ul>
         {possibleMeals.length === 0 && !selectedRecipe ? (
-          <p className="defaultMessage">
-            Ei mitään aineksia tehdä mitään! Käy kaupassa tai lisää reseptejä!
-          </p>
+          <>
+            <p className="defaultMessage">
+              Ei mitään aineksia tehdä mitään! Käy kaupassa tai lisää reseptejä!
+            </p>
+  
+            {/* Render UnAvailableMeals specifically when there's no possibleMeals */}
+            {recipes
+              .filter((recipe) => !isRecipePossible(recipe, fridgeItems))
+              .map((recipe, idx) => (
+                <UnAvailableMeals
+                  key={idx}
+                  recipe={recipe}
+                  fridgeItems={fridgeItems}
+                />
+              ))}
+          </>
         ) : (
-          possibleMeals.map((recipe, idx) => {
-            return (
+          <>
+            {possibleMeals.map((recipe, idx) => (
               <li
                 className="listMeals"
                 key={idx}
@@ -69,7 +95,7 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
                   }
                 }}
               >
-                <p>{recipe.name}:</p>
+                <p className="recipeName">{recipe.name}</p>
                 <ul>
                   {recipe.ingredients.map((ing, ingIdx) => (
                     <li key={ingIdx} className="ingredientItem">
@@ -80,26 +106,42 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
                     </li>
                   ))}
                 </ul>
-
-                {selectedRecipe && recipe.name === selectedRecipe.name && (
-                  <div className="selectedMealWindow">
-                    <hr />
-                    <h2>Valmistusohjeet</h2>
-                    <p>{selectedRecipe.instructions}</p>
-                    <button
-                      onClick={() => handleTehtyButtonClick(selectedRecipe)}
-                    >
-                      Valmistin tämän ruuan
-                    </button>
-                  </div>
-                )}
+  
+                <div
+                  className={
+                    selectedRecipe && recipe.name === selectedRecipe.name
+                      ? "selectedMealWindow visible"
+                      : "selectedMealWindow"
+                  }
+                >
+                  <hr />
+                  <h2>Valmistusohjeet:</h2>
+                  <p>{selectedRecipe ? selectedRecipe.instructions : ""}</p>
+                  <button
+                    onClick={() => handleTehtyButtonClick(selectedRecipe)}
+                  >
+                    Valmistin tämän ruuan
+                  </button>
+                </div>
               </li>
-            );
-          })
+            ))}
+  
+            {/* Render UnAvailableMeals after the possibleMeals */}
+            {recipes
+              .filter((recipe) => !isRecipePossible(recipe, fridgeItems))
+              .map((recipe, idx) => (
+                <UnAvailableMeals
+                  key={idx}
+                  recipe={recipe}
+                  fridgeItems={fridgeItems}
+                />
+              ))}
+          </>
         )}
       </ul>
     </>
   );
+  
 };
 
 export default MealList;

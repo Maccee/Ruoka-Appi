@@ -1,16 +1,21 @@
 .App {
-  font-family: "Kanit", sans-serif;
+  font-family: "Quicksand", sans-serif;
   font-size: 62.5%;
-  background-color: #d3d3d3;
-  height: 95vh;
+  min-height: 100vh;
+  margin-bottom: 7rem;
+}
+.App .logo {
+  height: 3rem;
+  width: max-content;
 }
 .defaultMessage {
-  margin: 0.5rem;
+  margin: 2rem 0.5rem 2rem 0.5rem;
 }
 hr {
   margin-top: 1rem;
   margin-bottom: 1rem;
-  color: #001f3f;
+  color: #3f3f3f;
+  width: 100%;
 }
 .App a {
   text-decoration: none;
@@ -24,32 +29,38 @@ hr {
 }
 .App h1 {
   font-size: 3rem;
-  letter-spacing: 0.1rem;
+
   padding: 0.5rem;
-  border-bottom: 1px dashed #d3d3d3;
 }
 .App h2 {
   font-size: 1.5rem;
-  letter-spacing: 0.1rem;
+
   padding: 0.5rem;
 }
 .App header {
-  color: #eaecee;
-  background-color: #001f3f;
+  color: goldenrod;
+  position: fixed;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.syncIcon {
+  font-size: 2rem;
+  margin-inline-end: 1rem;
 }
 .App ul {
   font-size: 1rem;
-  letter-spacing: 0.1rem;
 }
 
 .App nav {
   height: 4rem;
   position: fixed;
   bottom: 0;
-  color: white;
   width: 100%;
-  background-color: #001f3f;
-  border-top: 1px dashed #d3d3d3;
+  background-color: #000000;
   display: flex;
   align-items: center;
 }
@@ -70,7 +81,7 @@ hr {
   margin-right: 1rem;
 }
 nav ul li a {
-  color: #007fff;
+  color: goldenrod;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -94,52 +105,57 @@ nav ul li a > span {
 }
 
 .App input {
-  background-color: white;
   width: 100%;
-  height: 2.5rem;
-  border-radius: 0.5rem;
   margin-bottom: 0.5rem;
-  font-size: 1rem;
   padding-left: 1rem;
-  box-sizing: border-box;
-  color: black;
 }
 .App input[type="number"] {
   width: 50%;
 }
 .App select {
   width: 50px;
+}
+.App input,
+.App select {
+  background-color: rgb(255, 255, 255);
   box-sizing: border-box;
-  background-color: white;
-  height: 2.5rem;
-  border-radius: 0.5rem;
   font-size: 1rem;
-  color: dimgray;
+  border: none;
+  color: black;
+  border-radius: 0.5rem;
+  height: 2.5rem;
+}
+.mealListHeader,
+.stockHeader,
+.recipesHeader,
+.shoppingListHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-inline-end: 0.5rem;
+  padding-block-start: 4rem;
 }
 
 .listMeals {
-  margin-inline-start: 0.5rem;
-  margin-inline-end: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #001f3f;
-  border-radius: 1rem;
+  margin: 0 0.5rem 0 0.5rem;
+  border-radius: 0.5rem;
   padding: 0.5rem;
-  background-color: white;
-  margin-bottom: 1rem;
-  box-shadow: 4px 4px 10px -6px black;
-}
-.listMeals {
+  background-color: goldenrod;
+  color: black;
+  margin-bottom: 0.5rem;
+  box-shadow: 0px 0px 10px -4px gold;
   transition: all 0.3s ease-out;
 }
-
-.listMeals p {
-  font-weight: 700;
-  letter-spacing: 0.2rem;
+.listMeals hr {
+  color: darkgoldenrod;
 }
-.listMeals ul li {
-  padding-bottom: 0.2rem;
-  font-size: 0.8rem;
-  letter-spacing: 0.1rem;
+.recipeName {
+  font-weight: 700;
+  padding: 0 0 1rem 0;
+  font-size: 2rem;
+}
+.recipeNameGreyed {
+  font-size: 1.5rem;
 }
 .ingredientItem {
   display: flex;
@@ -147,8 +163,76 @@ nav ul li a > span {
   width: 100%;
 }
 
+.greyedOut {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: rgb(0, 0, 0);
+  pointer-events: none;
+  box-shadow: none;
+}
+.greyedOut button {
+  margin-block-start: 0.5rem;
+  pointer-events: auto;
+  color: goldenrod;
+}
+.puuttuvatAinekset p {
+  margin: 1rem 0 1rem 0;
+  font-weight: 700;
+}
+.selectedMealWindow {
+  transition: opacity 0.3s ease, max-height 0.3s ease;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+.selectedMealWindow.visible {
+  opacity: 1;
+  max-height: 1000px;
+}
+.selectedMealWindow h2 {
+  padding: 0;
+  font-size: 1rem;
+}
+.selectedMealWindow p {
+  font-weight: 400;
+  margin: 1rem 0.5rem 1rem 0;
+}
+.selectedMealWindow ul li {
+  font-size: 2rem;
+}
+.selectedMealWindow button {
+  margin: 0 0 0.5rem 0.5rem;
+  border-radius: 0.5rem;
+  background-color: goldenrod;
+  padding: 0.5rem;
+  height: 2.5rem;
+  font-size: 1.1rem;
+  box-shadow: 0px 0px 7px rgb(255, 255, 255);
+}
+
+.stockFormContainer {
+  transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+.stockFormContainer.visible {
+  opacity: 1; /* make it fully visible */
+  max-height: 1000px; /* adjust as per your form's maximum possible height */
+}
+
+.stockHeader .stockToggle {
+  border-radius: 0.5rem;
+  background-color: goldenrod;
+  padding: 0.5rem;
+  height: 2.5rem;
+  font-size: 1.1rem;
+
+  color: black;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+}
+
 .stockForm {
-  margin: 1rem;
+  margin: 0.5rem;
 }
 .stockForm div {
   display: flex;
@@ -156,22 +240,22 @@ nav ul li a > span {
   align-items: center;
   flex-shrink: 0;
   flex-wrap: nowrap;
-  gap: 2rem;
+  gap: 1rem;
 }
 .stockForm input[type="number"] {
   margin: 0;
-  flex-basis: 30%;
+  flex-basis: 35%;
 }
 
 .stockForm button {
-  flex-basis: 30%;
+  flex-basis: 20%;
   border-radius: 0.5rem;
-  background-color: #0066cc;
+  background-color: goldenrod;
   padding: 0.5rem;
   height: 2.5rem;
   font-size: 1.1rem;
-  letter-spacing: 0.1rem;
-  color: #ffffff;
+
+  color: black;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
 }
 
@@ -179,10 +263,12 @@ nav ul li a > span {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  padding-bottom: 0.5rem;
-  margin-inline-start: 0.5rem;
-  margin-inline-end: 0.5rem;
+  margin: 0 0.5rem 0.5rem 0.5rem;
+  background-color: darkgoldenrod;
+  color: black;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
 }
 
 .itemDetails {
@@ -195,33 +281,49 @@ nav ul li a > span {
 .itemName {
   flex-grow: 1;
 }
-
 .quantity,
 .unit {
   display: inline-flex;
   width: 50px;
 }
-
 .quantity {
   justify-content: flex-end;
-  padding-right: 0.5rem;
+  padding-right: 0.2rem;
 }
-
 .unit {
   justify-content: flex-start;
-  margin-right: 0.3rem;
 }
-
 .itemActions {
   display: flex;
 }
-
 .faIcon {
-  color: #0066cc;
+  color: goldenrod;
   font-size: 1.5rem;
   margin-right: 0.5rem;
 }
 
+
+.recipeFormContainer {
+  transition: opacity 0.3s ease, max-height 0.3s ease;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+.recipeFormContainer.visible {
+  opacity: 1;
+  max-height: 1000px;
+}
+
+.recipesHeader .recipesToggle {
+  border-radius: 0.5rem;
+  background-color: goldenrod;
+  padding: 0.5rem;
+  height: 2.5rem;
+  font-size: 1.1rem;
+
+  color: black;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+}
 .recipeForm {
   margin: 1rem;
 }
@@ -231,7 +333,6 @@ nav ul li a > span {
 }
 
 .recipeForm input {
-  /* Assuming the ingredient name input is of type text */
   width: 100%;
 }
 .recipeForm .quantityDiv {
@@ -247,14 +348,13 @@ nav ul li a > span {
   flex-basis: 0;
 }
 .recipeForm button {
-  flex-basis: 30%;
   border-radius: 0.5rem;
-  background-color: #0066cc;
+  background-color: goldenrod;
   padding: 0.5rem;
   height: 2.5rem;
   font-size: 1.1rem;
-  letter-spacing: 0.1rem;
-  color: #ffffff;
+
+  color: black;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
 }
 .recipeForm .reseptiNapit {
@@ -277,10 +377,11 @@ nav ul li a > span {
   margin-inline-start: 0.5rem;
   margin-inline-end: 0.5rem;
   font-size: 1rem;
-  border: 1px solid #001f3f;
-  border-radius: 1rem;
+  border: 1px solid #000000;
+  border-radius: 0.2rem;
   padding: 0.5rem;
-  background-color: white;
+  background-color: darkgoldenrod;
+  color: #000000;
   margin-bottom: 1rem;
   box-shadow: 4px 4px 10px -6px black;
   position: relative; /* Added to position the buttons at the bottom */
@@ -288,19 +389,11 @@ nav ul li a > span {
 
 .recipeList p {
   font-weight: 700;
-  letter-spacing: 0.2rem;
 }
 
 .recipeList ul li {
   padding-bottom: 0.2rem;
   font-size: 0.8rem;
-  letter-spacing: 0.1rem;
-}
-
-.ingredientItem {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
 }
 
 .recipeActions {
@@ -311,28 +404,35 @@ nav ul li a > span {
   /* Positioning 10px from the right of .recipeList */
 }
 
-.selectedMealWindow {
-}
-.selectedMealWindow h2 {
-  padding: 0;
-  margin-bottom: 1rem;
-}
-.selectedMealWindow p {
-  font-weight: 400;
-  letter-spacing: normal;
-  margin-bottom: 1rem;
-}
-.selectedMealWindow ul li {
+.shoppingList ul {
+  margin-inline-start: 0.5rem;
+  margin-inline-end: 0.5rem;
   font-size: 1rem;
-  letter-spacing: 0.1rem;
-}
-.selectedMealWindow button {
+  color: black;
   border-radius: 0.5rem;
-  background-color: #0066cc;
+  padding: 0.5rem;
+  background-color: darkgoldenrod;
+  margin-bottom: 1rem;
+  box-shadow: 4px 4px 10px -6px black;
+}
+.shoppingList li {
+  margin-block-end: 0.3rem;
+}
+.strikethrough {
+  text-decoration: line-through;
+}
+.tyhjaLista {
+  margin-inline-start: 0.5rem;
+  font-size: 1rem;
+}
+.shoppingList button {
+  margin-inline-start: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: goldenrod;
   padding: 0.5rem;
   height: 2.5rem;
   font-size: 1.1rem;
-  letter-spacing: 0.1rem;
-  color: #ffffff;
+
+  color: black;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
 }
