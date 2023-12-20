@@ -63,7 +63,7 @@ const UnAvailableMeals = ({ recipe, fridgeItems }) => {
 
   return (
     <li className="listMeals greyedOut">
-      <p>{recipe.name}:</p>
+      <p className="recipeName recipeNameGreyed">{recipe.name}:</p>
       <ul>
         {recipe.ingredients.map((ing, ingIdx) => (
           <li key={ingIdx} className="ingredientItem">
@@ -75,12 +75,12 @@ const UnAvailableMeals = ({ recipe, fridgeItems }) => {
         ))}
       </ul>
       {missingIngredients.length > 0 && (
-        <>
+        <div className="puuttuvatAinekset">
           <p>Puuttuvat ainekset:</p>
           <ul>
             {missingIngredients.map((ing, ingIdx) => (
               <li key={ingIdx} className="missingIngredientItem">
-                <span className="ingredientName">{ing.name}</span>
+                <span className="ingredientName">{ing.name} </span>
                 <span className="ingredientQuantity">
                   ({ing.quantity} {ing.unit})
                 </span>
@@ -93,7 +93,7 @@ const UnAvailableMeals = ({ recipe, fridgeItems }) => {
           >
             <FontAwesomeIcon className="syncIcon" icon="fa-solid fa-list" />
           </button>
-        </>
+        </div>
       )}
     </li>
   );

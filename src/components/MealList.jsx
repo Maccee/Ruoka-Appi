@@ -95,7 +95,7 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
                   }
                 }}
               >
-                <p>{recipe.name}:</p>
+                <p className="recipeName">{recipe.name}</p>
                 <ul>
                   {recipe.ingredients.map((ing, ingIdx) => (
                     <li key={ingIdx} className="ingredientItem">
@@ -115,7 +115,7 @@ const MealList = ({ setFridgeItems, recipes, fridgeItems }) => {
                   }
                 >
                   <hr />
-                  <h2>Valmistusohjeet</h2>
+                  <h2>Valmistusohjeet:</h2>
                   <p>{selectedRecipe ? selectedRecipe.instructions : ""}</p>
                   <button
                     onClick={() => handleTehtyButtonClick(selectedRecipe)}

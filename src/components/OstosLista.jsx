@@ -54,33 +54,38 @@ const OstosLista = ({ fridgeItems, setFridgeItems }) => {
   
 
   return (
-    <div className="shoppingList">
+    <>
+    <div className="shoppingListHeader">
       <h2>OstosLista</h2>
+      </div>
       <hr />
-      {shoppingList.length > 0 ? (
-        <>
-          <ul>
-            {shoppingList.map((item, index) => (
-              <li
-                key={index}
-                onClick={() => handleItemClick(index)}
-                className={clickedItems[index] ? "strikethrough" : ""}
-              >
-                {item.name} ({item.quantity} {item.unit})
-              </li>
-            ))}
-          </ul>
-          <button
-            className="ostosListaButton"
-            onClick={clearStrikethroughItems}
-          >
-            Tyhjennä
-          </button>
-        </>
-      ) : (
-        <p className="tyhjaLista">Ostoslista on tyhjä!</p>
-      )}
+      <div className="shoppingList">
+        {shoppingList.length > 0 ? (
+          <>
+            <ul>
+              {shoppingList.map((item, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleItemClick(index)}
+                  className={clickedItems[index] ? "strikethrough" : ""}
+                >
+                  {item.name} ({item.quantity} {item.unit})
+                </li>
+              ))}
+            </ul>
+            <button
+              className="ostosListaButton"
+              onClick={clearStrikethroughItems}
+            >
+              Tyhjennä
+            </button>
+          </>
+        ) : (
+          <p className="tyhjaLista">Ostoslista on tyhjä!</p>
+        )}
+      
     </div>
+    </>
   );
 };
 
